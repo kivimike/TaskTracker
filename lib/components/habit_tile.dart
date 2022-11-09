@@ -19,7 +19,7 @@ class HabitTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(10.0),
+      padding: const EdgeInsets.all(8.0),
       child: Material(
         color: Colors.transparent,
         elevation: 1,
@@ -45,14 +45,20 @@ class HabitTile extends StatelessWidget {
             ],
           ),
           child: Container(
-              padding: EdgeInsets.all(24),
+              padding: EdgeInsets.all(20),
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(12),
                   color: Colors.grey[100]),
               child: Row(
                 children: [
                   Checkbox(value: habitCompleted, onChanged: onChanged),
-                  Text(habitName),
+                  Text(
+                    habitName,
+                    style: TextStyle(
+                      fontWeight: FontWeight.w300,
+                      letterSpacing: 2.0,
+                    ),
+                  ),
                   Spacer(),
                   Icon(Icons.keyboard_double_arrow_left_outlined)
                 ],
