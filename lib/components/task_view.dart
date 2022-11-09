@@ -17,7 +17,7 @@ class TaskView extends StatelessWidget {
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.transparent,
       body: Padding(
-        padding: const EdgeInsets.only(top: 20, bottom: 300.0, left: 30, right: 30),
+        padding: const EdgeInsets.only(top: 20, bottom: 100.0, left: 30, right: 30),
         
         child: Material(
           borderRadius: BorderRadius.circular(30),
@@ -41,6 +41,7 @@ class TaskView extends StatelessWidget {
                           style: const TextStyle(
                               color: Colors.black87,
                               fontWeight: FontWeight.bold,
+                              fontSize: 24,
                               letterSpacing: 2),
                         ),
                         ]
