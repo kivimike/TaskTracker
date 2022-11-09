@@ -100,8 +100,7 @@ class MyAlertBox extends StatelessWidget {
                                 minTime: DateTime(2022, 1, 1),
                                 //TODO write a custom and connect to the calendar
                                 maxTime: DateTime(2100, 12, 31),
-                                onChanged: (date) {
-                            }, onConfirm: (date) {
+                                onChanged: (date) {}, onConfirm: (date) {
                               print('confirm $date');
                             },
                                 currentTime: DateTime.now(),
