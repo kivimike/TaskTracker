@@ -25,7 +25,7 @@ class MyAlertBox extends StatelessWidget {
       backgroundColor: Colors.transparent,
       body: Padding(
         padding:
-            const EdgeInsets.only(top: 20, bottom: 300.0, left: 30, right: 30),
+            const EdgeInsets.only(top: 20, bottom: 400.0, left: 30, right: 30),
         child: Material(
           borderRadius: BorderRadius.circular(30),
           elevation: 1,
@@ -65,7 +65,7 @@ class MyAlertBox extends StatelessWidget {
                     child: TextField(
                       keyboardType: TextInputType.multiline,
                       minLines: 1,
-                      maxLines: 10,
+                      maxLines: 7,
                       controller: controllerDescription..text = taskContent,
                       style: const TextStyle(color: Colors.black87),
                       decoration: InputDecoration(
@@ -85,24 +85,33 @@ class MyAlertBox extends StatelessWidget {
                   Spacer(),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
-                    children: [TextButton(
-                        onPressed: () {
-                          DatePicker.showDatePicker(context,
-                              showTitleActions: true,
-                              minTime: DateTime(2022, 1, 1),
-                              maxTime: DateTime(2050, 12, 31),
-                              onChanged: (date) {
-                                print('change $date');
-                              }, onConfirm: (date) {
-                                print('confirm $date');
-                              },
-                              currentTime: DateTime.now(),
-                              locale: LocaleType.en);
-                        },
-                        child: Text(
-                          'Select time',
-                          style: TextStyle(color: Colors.black45),
-                        )), Spacer(),
+                    children: [
+                      TextButton(
+                          onPressed: () {
+                            DatePicker.showDateTimePicker(context,
+                                showTitleActions: true,
+                                theme: DatePickerTheme(
+                                    backgroundColor: Colors.white,
+                                    doneStyle: TextStyle(color: Colors.green),
+                                    itemStyle: TextStyle(
+                                        color: Colors.grey.shade700,
+                                        fontWeight: FontWeight.w400,
+                                        letterSpacing: 3.0)),
+                                minTime: DateTime(2022, 1, 1),
+                                //TODO write a custom and connect to the calendar
+                                maxTime: DateTime(2100, 12, 31),
+                                onChanged: (date) {
+                            }, onConfirm: (date) {
+                              print('confirm $date');
+                            },
+                                currentTime: DateTime.now(),
+                                locale: LocaleType.en);
+                          },
+                          child: Text(
+                            'Select time',
+                            style: TextStyle(color: Colors.black45),
+                          )),
+                      Spacer(),
                       MaterialButton(
                         onPressed: onSave,
                         child: Text(
@@ -114,7 +123,6 @@ class MyAlertBox extends StatelessWidget {
                       Container(
                         width: 5,
                       ),
-
                       MaterialButton(
                         onPressed: onCancel,
                         child: Text(
@@ -127,24 +135,6 @@ class MyAlertBox extends StatelessWidget {
                   ),
                 ]),
           ),
-          // actions: [
-          //   MaterialButton(
-          //     onPressed: onSave,
-          //     child: Text(
-          //       'Save',
-          //       style: TextStyle(color: Colors.grey.shade100),
-          //     ),
-          //     color: Colors.green,
-          //   ),
-          //   MaterialButton(
-          //     onPressed: onCancel,
-          //     child: Text(
-          //       'Cancel',
-          //       style: TextStyle(color: Colors.grey.shade100),
-          //     ),
-          //     color: Colors.green,
-          //   )
-          // ],
         ),
       ),
     );
