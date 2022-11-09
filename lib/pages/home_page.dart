@@ -143,6 +143,8 @@ class _HomePageState extends State<HomePage> {
     db.updateDatabase();
   }
 
+  //TODO add progress bar
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
