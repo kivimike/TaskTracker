@@ -32,7 +32,7 @@ class MyAlertBox extends StatelessWidget {
       ),
       content: Column(children: [
         SizedBox(
-          width: MediaQuery.of(context).size.width * 0.9,
+          width: MediaQuery.of(context).size.width * 0.85,
           child: TextField(
             controller: controllerName..text = taskName,
             style: const TextStyle(color: Colors.black87),
