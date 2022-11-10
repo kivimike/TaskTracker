@@ -26,21 +26,24 @@ class MyAlertBox extends StatelessWidget {
       insetPadding: EdgeInsets.only(
           bottom: MediaQuery.of(context).size.height*0.1,
       left: 0),
-      contentPadding: EdgeInsets.symmetric(vertical: 16, horizontal: 8),
+      contentPadding: EdgeInsets.symmetric(vertical: 16, horizontal: 16),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12)
       ),
       content: Column(children: [
-        TextField(
-          controller: controllerName..text = taskName,
-          style: const TextStyle(color: Colors.black87),
-          decoration: InputDecoration(
-            hintText: 'Enter the task ...',
-            hintStyle: TextStyle(color: Colors.grey[600]),
-            enabledBorder: const OutlineInputBorder(
-                borderSide: BorderSide(color: Colors.black12)),
-            focusedBorder: const OutlineInputBorder(
-                borderSide: BorderSide(color: Colors.black12)),
+        SizedBox(
+          width: MediaQuery.of(context).size.width * 0.9,
+          child: TextField(
+            controller: controllerName..text = taskName,
+            style: const TextStyle(color: Colors.black87),
+            decoration: InputDecoration(
+              hintText: 'Enter the task ...',
+              hintStyle: TextStyle(color: Colors.grey[600]),
+              enabledBorder: const OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.black12)),
+              focusedBorder: const OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.black12)),
+            ),
           ),
         ),
         Container(
@@ -63,21 +66,27 @@ class MyAlertBox extends StatelessWidget {
         MyDatePicker(),
       ]),
       actions: [
-        MaterialButton(
-          onPressed: onSave,
-          child: Text(
-            "Save",
-            style: TextStyle(color: Colors.white),
+        Padding(
+          padding: const EdgeInsets.only(bottom: 8.0,),
+          child: MaterialButton(
+            onPressed: onSave,
+            child: Text(
+              "Save",
+              style: TextStyle(color: Colors.white),
+            ),
+            color: Colors.green,
           ),
-          color: Colors.green,
         ),
-        MaterialButton(
-          onPressed: onCancel,
-          child: Text(
-            "Cancel",
-            style: TextStyle(color: Colors.white),
+        Padding(
+          padding: const EdgeInsets.only(right: 8.0, left: 2, bottom: 8),
+          child: MaterialButton(
+            onPressed: onCancel,
+            child: Text(
+              "Cancel",
+              style: TextStyle(color: Colors.white),
+            ),
+            color: Colors.green,
           ),
-          color: Colors.green,
         ),
       ],
     );
