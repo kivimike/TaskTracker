@@ -52,12 +52,18 @@ class HabitTile extends StatelessWidget {
             children: [
               // checkbox
               Checkbox(
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
                 value: habitCompleted,
                 onChanged: onChanged,
               ),
 
               // habit name
-              Text(habitName),
+              Text(habitName.padRight(15, ' ').substring(0,15),
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.w300,
+                letterSpacing: 2,
+              ),),
               Spacer(),
               Icon(Icons.keyboard_double_arrow_left_outlined)
             ],
