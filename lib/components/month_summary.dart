@@ -2,12 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_heatmap_calendar/flutter_heatmap_calendar.dart';
 import 'package:habit_tracker/datetime/date_time.dart';
 
-class MonthlySymmary extends StatelessWidget {
+class MonthlySummary extends StatelessWidget {
   final Map<DateTime, int>? datasets;
   final String startDate;
 
-  const MonthlySymmary(
-      {super.key, required this.datasets, required this.startDate});
+  const MonthlySummary({
+    super.key,
+    required this.datasets,
+    required this.startDate,
+  });
 
   @override
   Widget build(BuildContext context) {
