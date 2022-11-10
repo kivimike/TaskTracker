@@ -51,19 +51,44 @@ class HabitTile extends StatelessWidget {
           child: Row(
             children: [
               // checkbox
-              Checkbox(
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
-                value: habitCompleted,
-                onChanged: onChanged,
+              Transform.scale(
+                scale: 1.2,
+                child: Checkbox(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(5)),
+                  value: habitCompleted,
+                  onChanged: onChanged,
+                ),
               ),
+            Container(width: 10,),
 
               // habit name
-              Text(habitName.padRight(15, ' ').substring(0,15),
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.w300,
-                letterSpacing: 2,
-              ),),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    habitName.padRight(20, ' ').substring(0, 20),
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w400,
+                      letterSpacing: 1.2,
+                    ),
+                  ),
+                  Container(height: 6,)
+                  ,
+                  Text(
+                      'Date: ${DateTime.now().day}.'
+                          '${DateTime.now().month.toString().padLeft(2, '0')}'
+                          ' ${DateTime.now().hour.toString().padLeft(2, '0')}:'
+                          '${DateTime.now().minute.toString().padLeft(2, '0')}',
+                    style: TextStyle(
+                      fontSize: 12,
+                      letterSpacing: 1.2,
+                    ),
+                  )
+                ],
+              ),
               Spacer(),
               Icon(Icons.keyboard_double_arrow_left_outlined)
             ],
