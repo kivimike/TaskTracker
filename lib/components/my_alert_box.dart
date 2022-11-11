@@ -58,19 +58,22 @@ class MyAlertBox extends StatelessWidget {
         Container(
           height: 6,
         ),
-        TextField(
-          autofocus: true,
-          controller: controllerDescription..text = taskDescription,
-          style: const TextStyle(color: Colors.black87),
-          minLines: 1,
-          maxLines: 10,
-          decoration: InputDecoration(
-            hintText: 'Describe ...',
-            hintStyle: TextStyle(color: Colors.grey[600]),
-            enabledBorder: const OutlineInputBorder(
-                borderSide: BorderSide(color: Colors.black12)),
-            focusedBorder: const OutlineInputBorder(
-                borderSide: BorderSide(color: Colors.black12)),
+        SizedBox(
+          width: MediaQuery.of(context).size.width * 0.85,
+          child: TextField(
+            autofocus: true,
+            controller: controllerDescription..text = taskDescription,
+            style: const TextStyle(color: Colors.black87),
+            minLines: 1,
+            maxLines: 10,
+            decoration: InputDecoration(
+              hintText: 'Describe ...',
+              hintStyle: TextStyle(color: Colors.grey[600]),
+              enabledBorder: const OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.black12)),
+              focusedBorder: const OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.black12)),
+            ),
           ),
         ),
         MyDatePicker(datetime: DateTime.now(), getDate: getTime),
