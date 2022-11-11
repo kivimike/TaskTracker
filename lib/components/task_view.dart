@@ -85,10 +85,14 @@ class TaskView extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       MaterialButton(
+                        elevation: 1,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
                         onPressed: onCancel,
                         child: Text(
                           'Cancel',
-                          style: TextStyle(color: Colors.grey.shade100),
+                          style: TextStyle(color: Colors.grey.shade200),
                         ),
                         color: Colors.green,
                       )

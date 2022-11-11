@@ -39,7 +39,13 @@ class _MyDatePickerState extends State<MyDatePicker> {
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              ElevatedButton(
+              MaterialButton(
+                elevation: 1,
+                //was an Elevated Button
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8)
+                  ),
+                  color: Colors.green,
                   onPressed: () async {
                     final date = await pickDate();
                     if (date == null) {
@@ -54,11 +60,21 @@ class _MyDatePickerState extends State<MyDatePicker> {
                     });
                   },
                   child: Text(
-                      '${dateTime.day}/${dateTime.month}/${dateTime.year}')),
+                      '${dateTime.day}/${dateTime.month}/${dateTime.year}',
+                  style: TextStyle(
+                    color: Colors.grey[200]
+                  ),)),
               Container(
                 width: 10,
               ),
-              ElevatedButton(
+              MaterialButton(
+                elevation: 1,
+                //was an Elevated Button
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8)
+                  ),
+                  color: Colors.green,
+
                   onPressed: () async {
                     final time = await pickTime();
                     if (time == null) {
@@ -70,7 +86,10 @@ class _MyDatePickerState extends State<MyDatePicker> {
                       dateTime = newDateTime;
                     });
                   },
-                  child: Text('${hours}:${minutes}')),
+                  child: Text('${hours}:${minutes}',
+                  style: TextStyle(
+                    color: Colors.grey[200],
+                  ),)),
             ],
           )
         ],

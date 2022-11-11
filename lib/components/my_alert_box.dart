@@ -71,10 +71,14 @@ class MyAlertBox extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.only(bottom: 8.0,),
           child: MaterialButton(
+            elevation: 1,
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8)
+            ),
             onPressed: onSave,
             child: Text(
               "Save",
-              style: TextStyle(color: Colors.white),
+              style: TextStyle(color: Colors.grey.shade200),
             ),
             color: Colors.green,
           ),
@@ -82,10 +86,14 @@ class MyAlertBox extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.only(right: 8.0, left: 2, bottom: 8),
           child: MaterialButton(
+            elevation: 1,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8)
+            ),
             onPressed: onCancel,
             child: Text(
               "Cancel",
-              style: TextStyle(color: Colors.white),
+              style: TextStyle(color: Colors.grey.shade200),
             ),
             color: Colors.green,
           ),
