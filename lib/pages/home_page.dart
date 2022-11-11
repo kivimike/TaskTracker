@@ -81,6 +81,7 @@ class _HomePageState extends State<HomePage> {
     // clear textfield
     _newHabitNameController.clear();
     _newHabitDescriptionController.clear();
+    _datetime = DateTime.now();
     //print(_datetime);
     // pop dialog box
     Navigator.of(context).pop();
@@ -142,6 +143,7 @@ class _HomePageState extends State<HomePage> {
     });
     _newHabitNameController.clear();
     _newHabitDescriptionController.clear();
+    _datetime = DateTime.now();
     Navigator.pop(context);
     db.updateDatabase();
   }

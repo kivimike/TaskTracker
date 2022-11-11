@@ -31,7 +31,7 @@ class _MyDatePickerState extends State<MyDatePicker> {
   @override
   Widget build(BuildContext context) {
     String hours = dateTime.hour.toString().padLeft(2, '0');
-    String minutes = dateTime.hour.toString().padLeft(2, '0');
+    String minutes = dateTime.minute.toString().padLeft(2, '0');
 
     return Container(
       padding: EdgeInsets.only(top: 8),
