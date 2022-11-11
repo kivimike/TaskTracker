@@ -129,6 +129,7 @@ class _HomePageState extends State<HomePage> {
         return TaskView(
           taskName: db.todaysHabitList[index][0],
           taskContent: db.todaysHabitList[index][2],
+          dateTime: db.todaysHabitList[index][3],
           onCancel: cancelDialogBox,
         );
       },
