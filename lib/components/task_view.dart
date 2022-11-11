@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class TaskView extends StatelessWidget {
   final String taskName;
@@ -65,13 +66,12 @@ class TaskView extends StatelessWidget {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   SelectableText(
-                                    '${dateTime.day.toString().padLeft(2,'0')}.${dateTime.month.toString().padLeft(2,'0')}',
+                                    '${dateTime.day.toString().padLeft(2, '0')}.${dateTime.month.toString().padLeft(2, '0')}',
                                     style: TextStyle(
-                                      fontSize: 24,
-                                      fontWeight: FontWeight.bold,
-                                      letterSpacing: 2,
-                                      color: Colors.grey.shade200
-                                    ),
+                                        fontSize: 24,
+                                        fontWeight: FontWeight.bold,
+                                        letterSpacing: 2,
+                                        color: Colors.grey.shade200),
                                   ),
                                   Row(
                                     children: [
@@ -83,11 +83,10 @@ class TaskView extends StatelessWidget {
                                       SelectableText(
                                         '${dateTime.year}',
                                         style: TextStyle(
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.w400,
-                                          letterSpacing: 2,
-                                            color: Colors.grey.shade200
-                                        ),
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w400,
+                                            letterSpacing: 2,
+                                            color: Colors.grey.shade200),
                                       ),
                                       Container(
                                         height: 1,
@@ -97,13 +96,12 @@ class TaskView extends StatelessWidget {
                                     ],
                                   ),
                                   SelectableText(
-                                    '${dateTime.hour.toString().padLeft(2,'0')}:${dateTime.minute.toString().padLeft(2,'0')}',
+                                    '${dateTime.hour.toString().padLeft(2, '0')}:${dateTime.minute.toString().padLeft(2, '0')}',
                                     style: TextStyle(
-                                      fontSize: 24,
-                                      fontWeight: FontWeight.bold,
-                                      letterSpacing: 2,
-                                        color: Colors.grey.shade200
-                                    ),
+                                        fontSize: 24,
+                                        fontWeight: FontWeight.bold,
+                                        letterSpacing: 2,
+                                        color: Colors.grey.shade200),
                                   ),
                                 ],
                               ),
@@ -152,6 +150,13 @@ class TaskView extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
+                      IconButton(
+                        onPressed: () async {
+                          await Clipboard.setData(ClipboardData(
+                              text: '${taskName}\n${taskContent}'));
+                        },
+                        icon: Icon(Icons.copy),
+                      ),
                       MaterialButton(
                         elevation: 1,
                         shape: RoundedRectangleBorder(
