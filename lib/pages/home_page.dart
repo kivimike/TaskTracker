@@ -173,21 +173,25 @@ class _HomePageState extends State<HomePage> {
           ListView.builder(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
-            itemCount: db.todaysHabitList.length,
+            itemCount: db.todaysHabitList.length+1,
             itemBuilder: (context, index) {
+              if (index < db.todaysHabitList.length) {
               return GestureDetector(
-                onDoubleTap: (){
-                  readHabit(index);
-                },
-                child: HabitTile(
-                  habitName: db.todaysHabitList[index][0],
-                  habitCompleted: db.todaysHabitList[index][1],
-                  dateTime: db.todaysHabitList[index][3],
-                  onChanged: (value) => checkBoxTapped(value, index),
-                  settingsTapped: (context) => openHabitSettings(index),
-                  deleteTapped: (context) => deleteHabit(index),
-                ),
+              onDoubleTap: (){
+              readHabit(index);
+              },
+              child: HabitTile(
+              habitName: db.todaysHabitList[index][0],
+              habitCompleted: db.todaysHabitList[index][1],
+              dateTime: db.todaysHabitList[index][3],
+              onChanged: (value) => checkBoxTapped(value, index),
+              settingsTapped: (context) => openHabitSettings(index),
+              deleteTapped: (context) => deleteHabit(index),
+              ),
               );
+              } else {
+                return Container(height: MediaQuery.of(context).size.height * 0.1);
+              }
             },
           )
         ],
