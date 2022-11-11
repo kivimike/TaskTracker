@@ -8,6 +8,12 @@ class HabitDatabase {
   List todaysHabitList = [];
   Map<DateTime, int> heatMapDataSet = {};
 
+  void sortList(){
+    todaysHabitList.sort((a, b){
+      return a[3].compareTo(b[3]);
+    });
+  }
+
   // create initial default data
   void createDefaultData() {
     todaysHabitList = [
@@ -39,6 +45,8 @@ class HabitDatabase {
 
   // update database
   void updateDatabase() {
+    sortList();
+    //print(todaysHabitList);
     // update todays entry
     _myBox.put(todaysDateFormatted(), todaysHabitList);
 
