@@ -3,12 +3,14 @@ import 'package:flutter/material.dart';
 class TaskView extends StatelessWidget {
   final String taskName;
   final String taskContent;
+  final DateTime dateTime;
   final VoidCallback onCancel;
 
   const TaskView(
       {super.key,
       required this.taskName,
       required this.taskContent,
+      required this.dateTime,
       required this.onCancel});
 
   @override
@@ -24,62 +26,114 @@ class TaskView extends StatelessWidget {
           elevation: 1,
           color: Colors.grey[100],
           child: Container(
-              width: MediaQuery.of(context).size.width*0.8,
-              margin: EdgeInsets.all(30),
-              child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Material(
-                      borderRadius: BorderRadius.circular(12),
-                      elevation: 0,
-                      color: Colors.grey[100],
-                      child: Row(
+            width: MediaQuery.of(context).size.width * 0.8,
+            margin: EdgeInsets.all(30),
+            child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Material(
+                    borderRadius: BorderRadius.circular(12),
+                    elevation: 0,
+                    color: Colors.grey[100],
+                    child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Expanded(
+                            child: SingleChildScrollView(
+                              child: SelectableText(
+                                taskName,
+                                minLines: 1,
+                                maxLines: 5,
+                                style: const TextStyle(
+                                    color: Colors.black87,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 24,
+                                    letterSpacing: 2),
+                              ),
+                            ),
+                          ),
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              SelectableText(
+                                '${dateTime.day}.${dateTime.month}',
+                                style: TextStyle(
+                                  fontSize: 24,
+                                  fontWeight: FontWeight.bold,
+                                  letterSpacing: 2,
+                                ),
+                              ),
+                              Row(
+                                children: [
+                                  Container(
+                                    height: 1,
+                                    width: 10,
+                                    color: Colors.black87,
+                                  ),
+                                  SelectableText(
+                                    '${dateTime.year}',
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w400,
+                                      letterSpacing: 2,
+                                    ),
+                                  ),
+                                  Container(
+                                    height: 1,
+                                    width: 10,
+                                    color: Colors.black87,
+                                  ),
+                                ],
+                              ),
+                              SelectableText(
+                                '${dateTime.hour}.${dateTime.minute}',
+                                style: TextStyle(
+                                  fontSize: 24,
+                                  fontWeight: FontWeight.bold,
+                                  letterSpacing: 2,
+                                ),
+                              ),
+                            ],
+                          )
+                        ]),
+                  ),
+                  Container(
+                    height: 5,
+                  ),
+                  Container(
+                    height: 1,
+                    width: MediaQuery.of(context).size.width * 0.8,
+                    color: Colors.black87,
+                  ),
+                  Container(
+                    height: 5,
+                  ),
+                  Material(
+                    borderRadius: BorderRadius.circular(12),
+                    elevation: 0,
+                    color: Colors.grey[100],
+                    child: Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           Expanded(
                             child: SingleChildScrollView(
-                              child: SelectableText(taskName,
-                              minLines: 1,
-                              maxLines: 5,
-                              style: const TextStyle(
+                              scrollDirection: Axis.vertical,
+                              child: SelectableText(
+                                taskContent,
+                                maxLines: 15,
+                                style: const TextStyle(
                                   color: Colors.black87,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 24,
-                                  letterSpacing: 2),
-                        ),
-                            ),
-                          ),
-                        ]
-                      ),
-                    ),
-                    Container(
-                      height: 5,
-                    ),
-                    Material(
-                      borderRadius: BorderRadius.circular(12),
-                      elevation: 0,
-                      color: Colors.grey[100],
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [Expanded(
-                          child: SingleChildScrollView(
-                            scrollDirection: Axis.vertical,
-                            child: SelectableText(
-                              taskContent,
-                              maxLines: 15,
-                              style: const TextStyle(
-                                  color: Colors.black87,
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                        ]
-                      ),
-                    ),
-                    Container(
-                      height: 5,
-                    ),
+                        ]),
+                  ),
+                  Container(
+                    height: 5,
+                  ),
                   Spacer(),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
@@ -98,10 +152,10 @@ class TaskView extends StatelessWidget {
                       )
                     ],
                   ),
-                  ]),
-            ),
+                ]),
           ),
         ),
+      ),
     );
   }
 }
