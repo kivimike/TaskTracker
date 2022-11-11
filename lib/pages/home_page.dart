@@ -126,7 +126,7 @@ class _HomePageState extends State<HomePage> {
   void saveExistingHabit(int index) {
     setState(() {
       db.todaysHabitList[index][0] = _newHabitNameController.text;
-      db.todaysHabitList[index][2] = _newHabitNameController.text;
+      db.todaysHabitList[index][2] = _newHabitDescriptionController.text;
     });
     _newHabitNameController.clear();
     _newHabitDescriptionController.clear();
