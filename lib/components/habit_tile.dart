@@ -4,6 +4,7 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 class HabitTile extends StatelessWidget {
   final String habitName;
   final bool habitCompleted;
+  final DateTime dateTime;
   final Function(bool?)? onChanged;
   final Function(BuildContext)? settingsTapped;
   final Function(BuildContext)? deleteTapped;
@@ -12,6 +13,7 @@ class HabitTile extends StatelessWidget {
     super.key,
     required this.habitName,
     required this.habitCompleted,
+    required this.dateTime,
     required this.onChanged,
     required this.settingsTapped,
     required this.deleteTapped,
@@ -78,10 +80,10 @@ class HabitTile extends StatelessWidget {
                   Container(height: 6,)
                   ,
                   Text(
-                      'Date: ${DateTime.now().day}.'
-                          '${DateTime.now().month.toString().padLeft(2, '0')}'
-                          ' ${DateTime.now().hour.toString().padLeft(2, '0')}:'
-                          '${DateTime.now().minute.toString().padLeft(2, '0')}',
+                      'Date: ${dateTime.day}.'
+                          '${dateTime.month.toString().padLeft(2, '0')}'
+                          ' ${dateTime.hour.toString().padLeft(2, '0')}:'
+                          '${dateTime.minute.toString().padLeft(2, '0')}',
                     style: TextStyle(
                       fontSize: 12,
                       letterSpacing: 1.2,

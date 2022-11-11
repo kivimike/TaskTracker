@@ -6,30 +6,36 @@ class MyAlertBox extends StatelessWidget {
   final controllerDescription;
   final String taskName;
   final String taskDescription;
+  late DateTime dateTime;
+  final Function(DateTime?)? getDate;
   final VoidCallback onSave;
   final VoidCallback onCancel;
 
-  const MyAlertBox({
+  MyAlertBox({
     super.key,
     required this.controllerName,
     required this.controllerDescription,
     required this.taskName,
     required this.taskDescription,
+    required this.dateTime,
+    required this.getDate,
     required this.onSave,
     required this.onCancel,
   });
 
   @override
   Widget build(BuildContext context) {
+    void getTime(datetime) {
+      dateTime = datetime;
+      getDate!(datetime);
+    }
+
     return AlertDialog(
       backgroundColor: Colors.grey[200],
       insetPadding: EdgeInsets.only(
-          bottom: MediaQuery.of(context).size.height*0.1,
-      left: 0),
+          bottom: MediaQuery.of(context).size.height * 0.1, left: 0),
       contentPadding: EdgeInsets.symmetric(vertical: 16, horizontal: 16),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12)
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       content: Column(children: [
         SizedBox(
           width: MediaQuery.of(context).size.width * 0.85,
@@ -65,16 +71,17 @@ class MyAlertBox extends StatelessWidget {
                 borderSide: BorderSide(color: Colors.black12)),
           ),
         ),
-        MyDatePicker(),
+        MyDatePicker(datetime: DateTime.now(), getDate: getTime),
       ]),
       actions: [
         Padding(
-          padding: const EdgeInsets.only(bottom: 8.0,),
+          padding: const EdgeInsets.only(
+            bottom: 8.0,
+          ),
           child: MaterialButton(
             elevation: 1,
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8)
-            ),
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
             onPressed: onSave,
             child: Text(
               "Save",
@@ -87,9 +94,8 @@ class MyAlertBox extends StatelessWidget {
           padding: const EdgeInsets.only(right: 8.0, left: 2, bottom: 8),
           child: MaterialButton(
             elevation: 1,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(8)
-            ),
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
             onPressed: onCancel,
             child: Text(
               "Cancel",

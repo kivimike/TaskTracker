@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 
 class MyDatePicker extends StatefulWidget {
-  //final datetime;
+  late DateTime datetime;
+  final Function(DateTime?)? getDate;
 
-  // const MyDatePicker({
-  //   super.key,
-  //   required this.datetime,
-  // });
+  MyDatePicker({
+    super.key,
+    required this.datetime,
+    required this.getDate,
+  });
 
   @override
   State<MyDatePicker> createState() => _MyDatePickerState();
@@ -57,7 +59,9 @@ class _MyDatePickerState extends State<MyDatePicker> {
 
                     setState(() {
                       dateTime = newDateTime;
+                      widget.datetime = dateTime;
                     });
+                    widget.getDate!(widget.datetime);
                   },
                   child: Text(
                       '${dateTime.day}/${dateTime.month}/${dateTime.year}',
@@ -84,7 +88,9 @@ class _MyDatePickerState extends State<MyDatePicker> {
                         dateTime.day, time.hour, time.minute);
                     setState(() {
                       dateTime = newDateTime;
+                      widget.datetime = dateTime;
                     });
+                    widget.getDate!(widget.datetime);
                   },
                   child: Text('${hours}:${minutes}',
                   style: TextStyle(

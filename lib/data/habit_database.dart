@@ -11,11 +11,11 @@ class HabitDatabase {
   // create initial default data
   void createDefaultData() {
     todaysHabitList = [
-      ["Task Name", false, "Information about the task"],
+      ["Task Name", false, "Information about the task", DateTime.now()],
       ['Double Tap Me!', false, 'Double tapping the tile will reveal extra '
-          'information about the task'],
-      ["Swipe left", false, 'Swipe left to edit or remove your task'],
-      ['"Plus" button', false, 'Tap on a "plus" button to create your new task'],
+          'information about the task', DateTime.now()],
+      ["Swipe left", false, 'Swipe left to edit or remove your task', DateTime.now()],
+      ['"Plus" button', false, 'Tap on a "plus" button to create your new task', DateTime.now()],
     ];
 
     _myBox.put("START_DATE", todaysDateFormatted());
@@ -102,7 +102,7 @@ class HabitDatabase {
       };
 
       heatMapDataSet.addEntries(percentForEachDay.entries);
-      print(heatMapDataSet);
+      //print(heatMapDataSet);
     }
   }
 }

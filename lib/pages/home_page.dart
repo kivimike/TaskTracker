@@ -50,6 +50,8 @@ class _HomePageState extends State<HomePage> {
   final _newHabitNameController = TextEditingController();
   final _newHabitDescriptionController = TextEditingController();
 
+  DateTime _datetime = DateTime.now();
+
   void createNewHabit() {
     // show alert dialog for user to enter the new habit details
     showDialog(
@@ -60,6 +62,8 @@ class _HomePageState extends State<HomePage> {
           controllerDescription: _newHabitDescriptionController,
           taskName: '',
           taskDescription: '',
+          dateTime: _datetime,
+          getDate: getDate,
           onSave: saveNewHabit,
           onCancel: cancelDialogBox,
         );
@@ -71,12 +75,13 @@ class _HomePageState extends State<HomePage> {
   void saveNewHabit() {
     // add new habit to todays habit list
     setState(() {
-      db.todaysHabitList.add([_newHabitNameController.text, false, _newHabitDescriptionController.text]);
+      db.todaysHabitList.add([_newHabitNameController.text, false, _newHabitDescriptionController.text, _datetime]);
     });
 
     // clear textfield
     _newHabitNameController.clear();
     _newHabitDescriptionController.clear();
+    //print(_datetime);
     // pop dialog box
     Navigator.of(context).pop();
     db.updateDatabase();
@@ -102,11 +107,18 @@ class _HomePageState extends State<HomePage> {
           controllerDescription: _newHabitDescriptionController,
           taskName: db.todaysHabitList[index][0],
           taskDescription: db.todaysHabitList[index][2],
+          dateTime: _datetime,
+          getDate: getDate,
           onSave: () => saveExistingHabit(index),
           onCancel: cancelDialogBox,
         );
       },
     );
+  }
+
+  void getDate(datetime){
+    _datetime = datetime;
+    print(_datetime);
   }
 
   void readHabit(int index) {
@@ -168,6 +180,7 @@ class _HomePageState extends State<HomePage> {
                 child: HabitTile(
                   habitName: db.todaysHabitList[index][0],
                   habitCompleted: db.todaysHabitList[index][1],
+                  dateTime: db.todaysHabitList[index][3],
                   onChanged: (value) => checkBoxTapped(value, index),
                   settingsTapped: (context) => openHabitSettings(index),
                   deleteTapped: (context) => deleteHabit(index),
