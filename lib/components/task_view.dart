@@ -54,48 +54,60 @@ class TaskView extends StatelessWidget {
                               ),
                             ),
                           ),
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              SelectableText(
-                                '${dateTime.day}.${dateTime.month}',
-                                style: TextStyle(
-                                  fontSize: 24,
-                                  fontWeight: FontWeight.bold,
-                                  letterSpacing: 2,
-                                ),
-                              ),
-                              Row(
+                          Material(
+                            color: Colors.green,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: Container(
+                              margin: EdgeInsets.all(4),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Container(
-                                    height: 1,
-                                    width: 10,
-                                    color: Colors.black87,
-                                  ),
                                   SelectableText(
-                                    '${dateTime.year}',
+                                    '${dateTime.day.toString().padLeft(2,'0')}.${dateTime.month.toString().padLeft(2,'0')}',
                                     style: TextStyle(
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w400,
+                                      fontSize: 24,
+                                      fontWeight: FontWeight.bold,
                                       letterSpacing: 2,
+                                      color: Colors.grey.shade200
                                     ),
                                   ),
-                                  Container(
-                                    height: 1,
-                                    width: 10,
-                                    color: Colors.black87,
+                                  Row(
+                                    children: [
+                                      Container(
+                                        height: 1,
+                                        width: 10,
+                                        color: Colors.grey.shade200,
+                                      ),
+                                      SelectableText(
+                                        '${dateTime.year}',
+                                        style: TextStyle(
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.w400,
+                                          letterSpacing: 2,
+                                            color: Colors.grey.shade200
+                                        ),
+                                      ),
+                                      Container(
+                                        height: 1,
+                                        width: 10,
+                                        color: Colors.grey.shade200,
+                                      ),
+                                    ],
+                                  ),
+                                  SelectableText(
+                                    '${dateTime.hour.toString().padLeft(2,'0')}:${dateTime.minute.toString().padLeft(2,'0')}',
+                                    style: TextStyle(
+                                      fontSize: 24,
+                                      fontWeight: FontWeight.bold,
+                                      letterSpacing: 2,
+                                        color: Colors.grey.shade200
+                                    ),
                                   ),
                                 ],
                               ),
-                              SelectableText(
-                                '${dateTime.hour}.${dateTime.minute}',
-                                style: TextStyle(
-                                  fontSize: 24,
-                                  fontWeight: FontWeight.bold,
-                                  letterSpacing: 2,
-                                ),
-                              ),
-                            ],
+                            ),
                           )
                         ]),
                   ),
@@ -125,6 +137,8 @@ class TaskView extends StatelessWidget {
                                 maxLines: 15,
                                 style: const TextStyle(
                                   color: Colors.black87,
+                                  letterSpacing: 1,
+                                  fontSize: 14,
                                 ),
                               ),
                             ),
