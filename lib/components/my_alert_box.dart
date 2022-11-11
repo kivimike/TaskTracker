@@ -40,6 +40,7 @@ class MyAlertBox extends StatelessWidget {
         SizedBox(
           width: MediaQuery.of(context).size.width * 0.85,
           child: TextField(
+            autofocus: true,
             minLines: 1,
             maxLines: 2,
             controller: controllerName..text = taskName,
@@ -58,6 +59,7 @@ class MyAlertBox extends StatelessWidget {
           height: 6,
         ),
         TextField(
+          autofocus: true,
           controller: controllerDescription..text = taskDescription,
           style: const TextStyle(color: Colors.black87),
           minLines: 1,
