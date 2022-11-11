@@ -140,6 +140,7 @@ class _HomePageState extends State<HomePage> {
     setState(() {
       db.todaysHabitList[index][0] = _newHabitNameController.text;
       db.todaysHabitList[index][2] = _newHabitDescriptionController.text;
+      db.todaysHabitList[index][3] = _datetime;
     });
     _newHabitNameController.clear();
     _newHabitDescriptionController.clear();
