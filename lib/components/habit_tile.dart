@@ -20,7 +20,7 @@ class HabitTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(16.0),
+      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
       child: Slidable(
         endActionPane: ActionPane(
           motion: const StretchMotion(),
@@ -43,7 +43,7 @@ class HabitTile extends StatelessWidget {
           ],
         ),
         child: Container(
-          padding: EdgeInsets.all(24),
+          padding: EdgeInsets.all(20),
           decoration: BoxDecoration(
             color: Colors.grey[100],
             borderRadius: BorderRadius.circular(12),
@@ -68,7 +68,7 @@ class HabitTile extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    habitName.padRight(20, ' ').substring(0, 20),
+                    habitName.replaceAll('\n', ' ').padRight(20, ' ').substring(0, 20),
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w400,
