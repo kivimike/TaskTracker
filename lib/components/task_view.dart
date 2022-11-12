@@ -39,7 +39,7 @@ class TaskView extends StatelessWidget {
                     color: Colors.grey[100],
                     child: Row(
                         mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Expanded(
                             child: SingleChildScrollView(
