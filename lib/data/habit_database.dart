@@ -85,7 +85,6 @@ class HabitDatabase {
   void updateDatabase() {
     sortList();
     List dates = getDates();
-    print(dates);
     for (int i = 0; i < dates.length; i++) {
       if (_myBox.get(dates[i]) == null) {
         _myBox.put(dates[i], filterByDate(dates[i]));
