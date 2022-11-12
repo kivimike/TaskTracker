@@ -157,6 +157,7 @@ class TaskView extends StatelessWidget {
                         },
                         icon: Icon(Icons.copy),
                       ),
+                      Spacer(),
                       MaterialButton(
                         elevation: 1,
                         shape: RoundedRectangleBorder(
