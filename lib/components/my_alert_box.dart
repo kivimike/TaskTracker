@@ -32,8 +32,7 @@ class MyAlertBox extends StatelessWidget {
 
     return AlertDialog(
       backgroundColor: Colors.grey[200],
-      insetPadding: EdgeInsets.only(
-          bottom: MediaQuery.of(context).size.height * 0.1, left: 0),
+      insetPadding: EdgeInsets.only(left: 0),
       contentPadding: EdgeInsets.symmetric(vertical: 16, horizontal: 16),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       content: Column(children: [
