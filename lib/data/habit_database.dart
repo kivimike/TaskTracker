@@ -8,8 +8,8 @@ class HabitDatabase {
   List todaysHabitList = [];
   Map<DateTime, int> heatMapDataSet = {};
 
-  void sortList(){
-    todaysHabitList.sort((a, b){
+  void sortList() {
+    todaysHabitList.sort((a, b) {
       return a[3].compareTo(b[3]);
     });
   }
@@ -18,10 +18,25 @@ class HabitDatabase {
   void createDefaultData() {
     todaysHabitList = [
       ["Task Name", false, "Information about the task", DateTime.now()],
-      ['Double Tap Me!', false, 'Double tapping the tile will reveal extra '
-          'information about the task', DateTime.now()],
-      ["Swipe left", false, 'Swipe left to edit or remove your task', DateTime.now()],
-      ['"Plus" button', false, 'Tap on a "plus" button to create your new task', DateTime.now()],
+      [
+        'Double Tap Me!',
+        false,
+        'Double tapping the tile will reveal extra '
+            'information about the task',
+        DateTime.now()
+      ],
+      [
+        "Swipe left",
+        false,
+        'Swipe left to edit or remove your task',
+        DateTime.now()
+      ],
+      [
+        '"Plus" button',
+        false,
+        'Tap on a "plus" button to create your new task',
+        DateTime.now()
+      ],
     ];
 
     _myBox.put("START_DATE", todaysDateFormatted());
@@ -43,9 +58,43 @@ class HabitDatabase {
     }
   }
 
+  List filterByDate(String date) {
+    List res = [];
+    for (int i = 0; i < todaysHabitList.length; ++i) {
+      if (convertDateTimeToString(todaysHabitList[i][3]) == date) {
+        res.add(todaysHabitList[i]);
+      }
+    }
+    return res;
+  }
+
+  List getDates() {
+    List dates = [];
+    for (int i = 0; i < todaysHabitList.length; ++i) {
+      if (dates.contains(convertDateTimeToString(todaysHabitList[i][3])) ==
+              false &&
+          convertDateTimeToString(todaysHabitList[i][3]) !=
+              todaysDateFormatted()) {
+        dates.add(convertDateTimeToString(todaysHabitList[i][3]));
+      }
+    }
+    return dates;
+  }
+
   // update database
   void updateDatabase() {
     sortList();
+    List dates = getDates();
+    print(dates);
+    for (int i = 0; i < dates.length; i++) {
+      if (_myBox.get(dates[i]) == null) {
+        _myBox.put(dates[i], filterByDate(dates[i]));
+      } else {
+        List habitList = _myBox.get(dates[i]);
+        _myBox.put(dates[i], habitList + filterByDate(dates[i]));
+      }
+    }
+    todaysHabitList = filterByDate(todaysDateFormatted());
     //print(todaysHabitList);
     // update todays entry
     _myBox.put(todaysDateFormatted(), todaysHabitList);
