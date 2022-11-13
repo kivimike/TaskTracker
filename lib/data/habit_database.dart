@@ -120,6 +120,7 @@ class HabitDatabase {
 
     // load heat map
     loadHeatMap();
+    getProgress();
   }
 
   void calculateHabitPercentages() {

@@ -36,7 +36,7 @@ class _HomePageState extends State<HomePage> {
     // update the database
     db.updateDatabase();
 
-    db.getProgress();
+    //db.getProgress();
 
     super.initState();
   }
@@ -47,7 +47,7 @@ class _HomePageState extends State<HomePage> {
       db.todaysHabitList[index][1] = value;
     });
     db.updateDatabase();
-    db.getProgress();
+    //db.getProgress();
   }
 
   // create a new habit
