@@ -3,6 +3,7 @@ import 'package:habit_tracker/components/habit_tile.dart';
 import 'package:habit_tracker/components/month_summary.dart';
 import 'package:habit_tracker/components/my_fab.dart';
 import 'package:habit_tracker/components/my_alert_box.dart';
+import 'package:habit_tracker/components/progress_bar.dart';
 import 'package:habit_tracker/data/habit_database.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
@@ -35,6 +36,8 @@ class _HomePageState extends State<HomePage> {
     // update the database
     db.updateDatabase();
 
+    db.getProgress();
+
     super.initState();
   }
 
@@ -44,6 +47,7 @@ class _HomePageState extends State<HomePage> {
       db.todaysHabitList[index][1] = value;
     });
     db.updateDatabase();
+    db.getProgress();
   }
 
   // create a new habit
@@ -75,7 +79,12 @@ class _HomePageState extends State<HomePage> {
   void saveNewHabit() {
     // add new habit to todays habit list
     setState(() {
-      db.todaysHabitList.add([_newHabitNameController.text, false, _newHabitDescriptionController.text, _datetime]);
+      db.todaysHabitList.add([
+        _newHabitNameController.text,
+        false,
+        _newHabitDescriptionController.text,
+        _datetime
+      ]);
     });
 
     // clear textfield
@@ -117,7 +126,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  void getDate(datetime){
+  void getDate(datetime) {
     _datetime = datetime;
     print(_datetime);
   }
@@ -170,29 +179,47 @@ class _HomePageState extends State<HomePage> {
             datasets: db.heatMapDataSet,
             startDate: _myBox.get("START_DATE"),
           ),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 16),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                progressBar(
+                    progress: db.progress,
+                    length: db.todaysHabitList.length + 1),
+                IconButton(
+                    onPressed: () {},
+                    icon: Icon(
+                      Icons.calendar_today,
+                      color: Colors.black87,
+                    )),
+              ],
+            ),
+          ),
 
           // list of habits
           ListView.builder(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
-            itemCount: db.todaysHabitList.length+1,
+            itemCount: db.todaysHabitList.length + 1,
             itemBuilder: (context, index) {
               if (index < db.todaysHabitList.length) {
-              return GestureDetector(
-              onDoubleTap: (){
-              readHabit(index);
-              },
-              child: HabitTile(
-              habitName: db.todaysHabitList[index][0],
-              habitCompleted: db.todaysHabitList[index][1],
-              dateTime: db.todaysHabitList[index][3],
-              onChanged: (value) => checkBoxTapped(value, index),
-              settingsTapped: (context) => openHabitSettings(index),
-              deleteTapped: (context) => deleteHabit(index),
-              ),
-              );
+                return GestureDetector(
+                  onDoubleTap: () {
+                    readHabit(index);
+                  },
+                  child: HabitTile(
+                    habitName: db.todaysHabitList[index][0],
+                    habitCompleted: db.todaysHabitList[index][1],
+                    dateTime: db.todaysHabitList[index][3],
+                    onChanged: (value) => checkBoxTapped(value, index),
+                    settingsTapped: (context) => openHabitSettings(index),
+                    deleteTapped: (context) => deleteHabit(index),
+                  ),
+                );
               } else {
-                return Container(height: MediaQuery.of(context).size.height * 0.1);
+                return Container(
+                    height: MediaQuery.of(context).size.height * 0.1);
               }
             },
           )

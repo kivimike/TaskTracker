@@ -7,11 +7,24 @@ final _myBox = Hive.box("Habit_Database");
 class HabitDatabase {
   List todaysHabitList = [];
   Map<DateTime, int> heatMapDataSet = {};
+  double progress = 0;
 
   void sortList() {
     todaysHabitList.sort((a, b) {
       return a[3].compareTo(b[3]);
     });
+  }
+
+  void getProgress(){
+    List totalTasks = _myBox.get('CURRENT_HABIT_LIST');
+    double doneCounter = 0;
+    for(int i = 0; i < totalTasks.length; ++i){
+      if (totalTasks[i][1] == true){
+        doneCounter += 1;
+      }
+    }
+    progress = doneCounter / totalTasks.length;
+    print(progress);
   }
 
   // create initial default data
