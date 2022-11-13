@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:habit_tracker/components/date_picker.dart';
+import 'package:habit_tracker/components/date_time_picker.dart';
 
 class MyAlertBox extends StatelessWidget {
   final controllerName;
@@ -75,7 +75,7 @@ class MyAlertBox extends StatelessWidget {
             ),
           ),
         ),
-        MyDatePicker(datetime: DateTime.now(), getDate: getTime),
+        MyDateTimePicker(datetime: DateTime.now(), getDate: getTime),
       ]),
       actions: [
         Padding(
