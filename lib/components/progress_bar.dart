@@ -9,7 +9,7 @@ class progressBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const double height = 0.008;
-    Duration duration = Duration(seconds: 0, milliseconds: (4000 / length).toInt());
+    Duration duration = Duration(seconds: 0, milliseconds: (800 / length).toInt()+400);
     int indicator() {
       int ind;
       if (progress <= 0.0125) {
