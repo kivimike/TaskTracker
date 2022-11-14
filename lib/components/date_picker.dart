@@ -23,83 +23,29 @@ class _MyDatePickerState extends State<MyDatePicker> {
       firstDate: DateTime(1900),
       lastDate: DateTime(2100));
 
-  Future<TimeOfDay?> pickTime() => showTimePicker(
-        context: context,
-        initialTime: TimeOfDay(hour: dateTime.hour, minute: dateTime.minute),
-      );
 
   @override
   Widget build(BuildContext context) {
-    String hours = dateTime.hour.toString().padLeft(2, '0');
-    String minutes = dateTime.minute.toString().padLeft(2, '0');
 
-    return Container(
-      padding: EdgeInsets.only(top: 8),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              MaterialButton(
-                elevation: 1,
-                //was an Elevated Button
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8)
-                  ),
-                  color: Colors.green,
-                  onPressed: () async {
-                    final date = await pickDate();
-                    if (date == null) {
-                      return; // cancelled
-                    }
+    return IconButton(
+        onPressed: () async {
+          final date = await pickDate();
+          if (date == null) {
+            return; // cancelled
+          }
 
-                    final newDateTime = DateTime(date.year, date.month,
-                        date.day, dateTime.hour, dateTime.minute);
+          final newDateTime = DateTime(date.year, date.month,
+              date.day, dateTime.hour, dateTime.minute);
 
-                    setState(() {
-                      dateTime = newDateTime;
-                      widget.datetime = dateTime;
-                    });
-                    widget.getDate!(widget.datetime);
-                  },
-                  child: Text(
-                      '${dateTime.day}/${dateTime.month}/${dateTime.year}',
-                  style: TextStyle(
-                    color: Colors.grey[200]
-                  ),)),
-              Container(
-                width: 10,
-              ),
-              MaterialButton(
-                elevation: 1,
-                //was an Elevated Button
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8)
-                  ),
-                  color: Colors.green,
-
-                  onPressed: () async {
-                    final time = await pickTime();
-                    if (time == null) {
-                      return; // cancelled
-                    }
-                    final newDateTime = DateTime(dateTime.year, dateTime.month,
-                        dateTime.day, time.hour, time.minute);
-                    setState(() {
-                      dateTime = newDateTime;
-                      widget.datetime = dateTime;
-                    });
-                    widget.getDate!(widget.datetime);
-                  },
-                  child: Text('${hours}:${minutes}',
-                  style: TextStyle(
-                    color: Colors.grey[200],
-                  ),)),
-            ],
-          )
-        ],
-      ),
-    );
+          setState(() {
+            dateTime = newDateTime;
+            widget.datetime = dateTime;
+          });
+          widget.getDate!(widget.datetime);
+        },
+        icon: Icon(
+          Icons.calendar_today,
+          color: Colors.black87,
+        ));
   }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:habit_tracker/components/date_picker.dart';
 import 'package:habit_tracker/components/habit_tile.dart';
 import 'package:habit_tracker/components/month_summary.dart';
 import 'package:habit_tracker/components/my_fab.dart';
@@ -30,11 +31,11 @@ class _HomePageState extends State<HomePage> {
 
     // there already exists data, this is not the first time
     else {
-      db.loadData();
+      db.loadData(_datetime);
     }
 
     // update the database
-    db.updateDatabase();
+    db.updateDatabase(_datetime);
 
     //db.getProgress();
 
@@ -46,7 +47,7 @@ class _HomePageState extends State<HomePage> {
     setState(() {
       db.todaysHabitList[index][1] = value;
     });
-    db.updateDatabase();
+    db.updateDatabase(_sheetDateTime);
     //db.getProgress();
   }
 
@@ -55,6 +56,7 @@ class _HomePageState extends State<HomePage> {
   final _newHabitDescriptionController = TextEditingController();
 
   DateTime _datetime = DateTime.now();
+  DateTime _sheetDateTime = DateTime.now();
 
   void createNewHabit() {
     // show alert dialog for user to enter the new habit details
@@ -94,7 +96,7 @@ class _HomePageState extends State<HomePage> {
     //print(_datetime);
     // pop dialog box
     Navigator.of(context).pop();
-    db.updateDatabase();
+    db.updateDatabase(_sheetDateTime);
   }
 
   // cancel new habit
@@ -128,7 +130,13 @@ class _HomePageState extends State<HomePage> {
 
   void getDate(datetime) {
     _datetime = datetime;
-    print(_datetime);
+  }
+
+  void setDate(datetime){
+    _sheetDateTime = datetime;
+    setState(() {
+      db.loadData(datetime);
+    });
   }
 
   void readHabit(int index) {
@@ -156,15 +164,17 @@ class _HomePageState extends State<HomePage> {
     _newHabitDescriptionController.clear();
     _datetime = DateTime.now();
     Navigator.pop(context);
-    db.updateDatabase();
+    db.updateDatabase(_sheetDateTime);
   }
 
   // delete habit
   void deleteHabit(int index) {
     setState(() {
       db.todaysHabitList.removeAt(index);
+      db.loadData(_sheetDateTime);
+      print(db.todaysHabitList);
     });
-    db.updateDatabase();
+    db.updateDatabase(_sheetDateTime);
   }
 
   @override
@@ -187,12 +197,7 @@ class _HomePageState extends State<HomePage> {
                 progressBar(
                     progress: db.progress,
                     length: db.todaysHabitList.length + 1),
-                IconButton(
-                    onPressed: () {},
-                    icon: Icon(
-                      Icons.calendar_today,
-                      color: Colors.black87,
-                    )),
+                MyDatePicker(datetime: _sheetDateTime, getDate: setDate)
               ],
             ),
           ),

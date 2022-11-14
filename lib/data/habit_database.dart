@@ -23,7 +23,11 @@ class HabitDatabase {
         doneCounter += 1;
       }
     }
-    progress = doneCounter / totalTasks.length;
+    int length = totalTasks.length;
+    if (totalTasks.length < 1){
+      length = 1;
+    }
+    progress = doneCounter / length;
     print(progress);
   }
 
@@ -56,9 +60,9 @@ class HabitDatabase {
   }
 
   // load data if it already exists
-  void loadData() {
+  void loadData(datetime) {
     // if it's a new day, get habit list from database
-    if (_myBox.get(todaysDateFormatted()) == null) {
+    if (_myBox.get(convertDateTimeToString(datetime)) == null) {
       // todaysHabitList = _myBox.get("CURRENT_HABIT_LIST");
       todaysHabitList = [];
       // set all habit completed to false since it's a new day
@@ -68,7 +72,7 @@ class HabitDatabase {
     }
     // if it's not a new day, load todays list
     else {
-      todaysHabitList = _myBox.get(todaysDateFormatted());
+      todaysHabitList = _myBox.get(convertDateTimeToString(datetime));
     }
   }
 
@@ -82,13 +86,13 @@ class HabitDatabase {
     return res;
   }
 
-  List getDates() {
+  List getDates(date) {
     List dates = [];
     for (int i = 0; i < todaysHabitList.length; ++i) {
       if (dates.contains(convertDateTimeToString(todaysHabitList[i][3])) ==
               false &&
           convertDateTimeToString(todaysHabitList[i][3]) !=
-              todaysDateFormatted()) {
+              convertDateTimeToString(date)) {
         dates.add(convertDateTimeToString(todaysHabitList[i][3]));
       }
     }
@@ -96,9 +100,9 @@ class HabitDatabase {
   }
 
   // update database
-  void updateDatabase() {
+  void updateDatabase(date) {
     sortList();
-    List dates = getDates();
+    List dates = getDates(date);
     for (int i = 0; i < dates.length; i++) {
       if (_myBox.get(dates[i]) == null) {
         _myBox.put(dates[i], filterByDate(dates[i]));
@@ -107,10 +111,10 @@ class HabitDatabase {
         _myBox.put(dates[i], habitList + filterByDate(dates[i]));
       }
     }
-    todaysHabitList = filterByDate(todaysDateFormatted());
+    todaysHabitList = filterByDate(convertDateTimeToString(date));
     //print(todaysHabitList);
     // update todays entry
-    _myBox.put(todaysDateFormatted(), todaysHabitList);
+    _myBox.put(convertDateTimeToString(date), todaysHabitList);
 
     // update universal habit list in case it changed (new habit, edit habit, delete habit)
     _myBox.put("CURRENT_HABIT_LIST", todaysHabitList);
