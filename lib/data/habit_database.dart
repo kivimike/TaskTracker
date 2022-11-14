@@ -46,7 +46,8 @@ class HabitDatabase {
   void loadData() {
     // if it's a new day, get habit list from database
     if (_myBox.get(todaysDateFormatted()) == null) {
-      todaysHabitList = _myBox.get("CURRENT_HABIT_LIST");
+      // todaysHabitList = _myBox.get("CURRENT_HABIT_LIST");
+      todaysHabitList = [];
       // set all habit completed to false since it's a new day
       for (int i = 0; i < todaysHabitList.length; i++) {
         todaysHabitList[i][1] = false;
