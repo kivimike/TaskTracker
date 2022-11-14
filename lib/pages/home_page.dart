@@ -57,6 +57,14 @@ class _HomePageState extends State<HomePage> {
 
   DateTime _datetime = DateTime.now();
   DateTime _sheetDateTime = DateTime.now();
+  bool dateChangedFlag = false;
+
+  DateTime updateSheetDateTime() {
+    DateTime now = DateTime.now();
+    _sheetDateTime = DateTime(_sheetDateTime.year, _sheetDateTime.month,
+        _sheetDateTime.day, now.hour, now.minute, now.second);
+    return _sheetDateTime;
+  }
 
   void createNewHabit() {
     // show alert dialog for user to enter the new habit details
@@ -68,7 +76,7 @@ class _HomePageState extends State<HomePage> {
           controllerDescription: _newHabitDescriptionController,
           taskName: '',
           taskDescription: '',
-          dateTime: _datetime,
+          dateTime: updateSheetDateTime(),
           getDate: getDate,
           onSave: saveNewHabit,
           onCancel: cancelDialogBox,
@@ -79,13 +87,24 @@ class _HomePageState extends State<HomePage> {
 
   // save new habit
   void saveNewHabit() {
+    updateSheetDateTime();
+
+    late DateTime newDate;
+    print(dateChangedFlag);
+    if (dateChangedFlag == true) {
+      newDate = _datetime;
+    } else {
+      newDate = _sheetDateTime;
+    }
+    dateChangedFlag = false;
+
     // add new habit to todays habit list
     setState(() {
       db.todaysHabitList.add([
         _newHabitNameController.text,
         false,
         _newHabitDescriptionController.text,
-        _datetime
+        newDate,
       ]);
     });
 
@@ -119,7 +138,7 @@ class _HomePageState extends State<HomePage> {
           controllerDescription: _newHabitDescriptionController,
           taskName: db.todaysHabitList[index][0],
           taskDescription: db.todaysHabitList[index][2],
-          dateTime: _datetime,
+          dateTime: db.todaysHabitList[index][3],
           getDate: getDate,
           onSave: () => saveExistingHabit(index),
           onCancel: cancelDialogBox,
@@ -129,10 +148,11 @@ class _HomePageState extends State<HomePage> {
   }
 
   void getDate(datetime) {
+    dateChangedFlag = true;
     _datetime = datetime;
   }
 
-  void setDate(datetime){
+  void setDate(datetime) {
     _sheetDateTime = datetime;
     setState(() {
       db.loadData(datetime);
@@ -155,10 +175,18 @@ class _HomePageState extends State<HomePage> {
 
   // save existing habit with a new name
   void saveExistingHabit(int index) {
+    late DateTime newDate;
+    print(dateChangedFlag);
+    if (dateChangedFlag == true) {
+      newDate = _datetime;
+    } else {
+      newDate = db.todaysHabitList[index][3];
+    }
+    dateChangedFlag = false;
     setState(() {
       db.todaysHabitList[index][0] = _newHabitNameController.text;
       db.todaysHabitList[index][2] = _newHabitDescriptionController.text;
-      db.todaysHabitList[index][3] = _datetime;
+      db.todaysHabitList[index][3] = newDate;
     });
     _newHabitNameController.clear();
     _newHabitDescriptionController.clear();

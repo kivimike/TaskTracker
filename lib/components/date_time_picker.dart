@@ -15,23 +15,23 @@ class MyDateTimePicker extends StatefulWidget {
 }
 
 class _MyDateTimePickerState extends State<MyDateTimePicker> {
-  DateTime dateTime = DateTime.now();
+  //DateTime dateTime = DateTime.now();
 
   Future<DateTime?> pickDate() => showDatePicker(
       context: context,
-      initialDate: dateTime,
+      initialDate: widget.datetime,
       firstDate: DateTime(1900),
       lastDate: DateTime(2100));
 
   Future<TimeOfDay?> pickTime() => showTimePicker(
         context: context,
-        initialTime: TimeOfDay(hour: dateTime.hour, minute: dateTime.minute),
+        initialTime: TimeOfDay(hour: widget.datetime.hour, minute: widget.datetime.minute),
       );
 
   @override
   Widget build(BuildContext context) {
-    String hours = dateTime.hour.toString().padLeft(2, '0');
-    String minutes = dateTime.minute.toString().padLeft(2, '0');
+    String hours = widget.datetime.hour.toString().padLeft(2, '0');
+    String minutes = widget.datetime.minute.toString().padLeft(2, '0');
 
     return Container(
       padding: EdgeInsets.only(top: 8),
@@ -55,16 +55,17 @@ class _MyDateTimePickerState extends State<MyDateTimePicker> {
                     }
 
                     final newDateTime = DateTime(date.year, date.month,
-                        date.day, dateTime.hour, dateTime.minute);
+                        date.day, widget.datetime.hour, widget.datetime.minute);
 
                     setState(() {
-                      dateTime = newDateTime;
-                      widget.datetime = dateTime;
+                      // dateTime = newDateTime;
+                      // widget.datetime = dateTime;
+                      widget.datetime = newDateTime;
                     });
                     widget.getDate!(widget.datetime);
                   },
                   child: Text(
-                      '${dateTime.day}/${dateTime.month}/${dateTime.year}',
+                      '${widget.datetime.day}/${widget.datetime.month}/${widget.datetime.year}',
                   style: TextStyle(
                     color: Colors.grey[200]
                   ),)),
@@ -84,11 +85,12 @@ class _MyDateTimePickerState extends State<MyDateTimePicker> {
                     if (time == null) {
                       return; // cancelled
                     }
-                    final newDateTime = DateTime(dateTime.year, dateTime.month,
-                        dateTime.day, time.hour, time.minute);
+                    final newDateTime = DateTime(widget.datetime.year, widget.datetime.month,
+                        widget.datetime.day, time.hour, time.minute);
                     setState(() {
-                      dateTime = newDateTime;
-                      widget.datetime = dateTime;
+                      // dateTime = newDateTime;
+                      // widget.datetime = dateTime;
+                      widget.datetime = newDateTime;
                     });
                     widget.getDate!(widget.datetime);
                   },

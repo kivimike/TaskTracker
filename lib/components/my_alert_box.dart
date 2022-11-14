@@ -11,6 +11,7 @@ class MyAlertBox extends StatelessWidget {
   final VoidCallback onSave;
   final VoidCallback onCancel;
 
+
   MyAlertBox({
     super.key,
     required this.controllerName,
@@ -27,6 +28,7 @@ class MyAlertBox extends StatelessWidget {
   Widget build(BuildContext context) {
     void getTime(datetime) {
       dateTime = datetime;
+      print(dateTime);
       getDate!(datetime);
     }
 
@@ -75,7 +77,7 @@ class MyAlertBox extends StatelessWidget {
             ),
           ),
         ),
-        MyDateTimePicker(datetime: DateTime.now(), getDate: getTime),
+        MyDateTimePicker(datetime: dateTime, getDate: getTime),
       ]),
       actions: [
         Padding(
