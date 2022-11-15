@@ -31,6 +31,13 @@ class HabitTile extends StatelessWidget {
       return Colors.grey.shade100;
     }
 
+    double inProgressPaddingFactor(){
+      if (inProgressStatus){
+        return 1.2;
+      }
+      return 1;
+    }
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 4),
       child: Slidable(
@@ -54,8 +61,9 @@ class HabitTile extends StatelessWidget {
             ),
           ],
         ),
-        child: Container(
-          padding: EdgeInsets.all(20),
+        child: AnimatedContainer(
+          duration: Duration(milliseconds: 150),
+          padding: EdgeInsets.symmetric(horizontal: 20 * inProgressPaddingFactor(), vertical: 20 * inProgressPaddingFactor()),
           decoration: BoxDecoration(
             color: changeTileColor(),
             borderRadius: BorderRadius.circular(12),
