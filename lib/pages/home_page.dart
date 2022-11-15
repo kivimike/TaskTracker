@@ -263,7 +263,7 @@ class _HomePageState extends State<HomePage> {
                   onTap: () {
                     readHabit(index);
                   },
-                  onDoubleTap: () {
+                  onLongPress: () {
                     changeProgressStatus(index);
                   },
                   child: HabitTile(
