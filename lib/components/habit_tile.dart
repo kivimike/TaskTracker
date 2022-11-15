@@ -8,6 +8,7 @@ class HabitTile extends StatelessWidget {
   final Function(bool?)? onChanged;
   final Function(BuildContext)? settingsTapped;
   final Function(BuildContext)? deleteTapped;
+  final inProgressStatus;
 
   const HabitTile({
     super.key,
@@ -17,10 +18,19 @@ class HabitTile extends StatelessWidget {
     required this.onChanged,
     required this.settingsTapped,
     required this.deleteTapped,
+    required this.inProgressStatus,
   });
 
   @override
   Widget build(BuildContext context) {
+
+    Color changeTileColor(){
+      if (inProgressStatus){
+        return Colors.green.shade200;
+      }
+      return Colors.grey.shade100;
+    }
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 4),
       child: Slidable(
@@ -47,8 +57,9 @@ class HabitTile extends StatelessWidget {
         child: Container(
           padding: EdgeInsets.all(20),
           decoration: BoxDecoration(
-            color: Colors.grey[100],
+            color: changeTileColor(),
             borderRadius: BorderRadius.circular(12),
+            border: Border.all(color: Colors.grey.shade100)
           ),
           child: Row(
             children: [

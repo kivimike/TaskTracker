@@ -44,6 +44,10 @@ class _HomePageState extends State<HomePage> {
 
   // checkbox was tapped
   void checkBoxTapped(bool? value, int index) {
+    if (value == true && db.todaysHabitList[index][4] == true){
+      changeProgressStatus(index);
+
+    }
     setState(() {
       db.todaysHabitList[index][1] = value;
     });
@@ -90,7 +94,7 @@ class _HomePageState extends State<HomePage> {
     updateSheetDateTime();
 
     late DateTime newDate;
-    print(dateChangedFlag);
+    //print(dateChangedFlag);
     if (dateChangedFlag == true) {
       newDate = _datetime;
     } else {
@@ -176,7 +180,7 @@ class _HomePageState extends State<HomePage> {
   // save existing habit with a new name
   void saveExistingHabit(int index) {
     late DateTime newDate;
-    print(dateChangedFlag);
+    //print(dateChangedFlag);
     if (dateChangedFlag == true) {
       newDate = _datetime;
     } else {
@@ -200,9 +204,27 @@ class _HomePageState extends State<HomePage> {
     setState(() {
       db.todaysHabitList.removeAt(index);
       db.loadData(_sheetDateTime);
-      print(db.todaysHabitList);
+      //print(db.todaysHabitList);
     });
     db.updateDatabase(_sheetDateTime);
+  }
+
+  void changeProgressStatus(index) {
+    if (db.todaysHabitList[index].length < 5) {
+      setState(() {
+        db.todaysHabitList[index].add(true);
+      });
+    } else if (db.todaysHabitList[index][4] == true) {
+      setState(() {
+        db.todaysHabitList[index][4] = false;
+      });
+    } else if (db.todaysHabitList[index][4] == false) {
+      setState(() {
+        db.todaysHabitList[index][4] = true;
+      });
+    }
+    db.updateDatabase(_sheetDateTime);
+    //print(db.todaysHabitList[index][4]);
   }
 
   @override
@@ -238,8 +260,11 @@ class _HomePageState extends State<HomePage> {
             itemBuilder: (context, index) {
               if (index < db.todaysHabitList.length) {
                 return GestureDetector(
-                  onDoubleTap: () {
+                  onTap: () {
                     readHabit(index);
+                  },
+                  onDoubleTap: () {
+                    changeProgressStatus(index);
                   },
                   child: HabitTile(
                     habitName: db.todaysHabitList[index][0],
@@ -248,6 +273,7 @@ class _HomePageState extends State<HomePage> {
                     onChanged: (value) => checkBoxTapped(value, index),
                     settingsTapped: (context) => openHabitSettings(index),
                     deleteTapped: (context) => deleteHabit(index),
+                    inProgressStatus: db.todaysHabitList[index][4],
                   ),
                 );
               } else {

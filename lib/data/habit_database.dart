@@ -28,7 +28,7 @@ class HabitDatabase {
       length = 1;
     }
     progress = doneCounter / length;
-    print(progress);
+    //print(progress);
   }
 
   // create initial default data
@@ -73,6 +73,11 @@ class HabitDatabase {
     // if it's not a new day, load todays list
     else {
       todaysHabitList = _myBox.get(convertDateTimeToString(datetime));
+    }
+    for(int i = 0; i < todaysHabitList.length; ++i){
+      if (todaysHabitList[i].length < 5){
+        todaysHabitList[i].add(false);
+      }
     }
   }
 
