@@ -16,15 +16,14 @@ class HabitDatabase {
   }
 
   void getProgress(){
-    List totalTasks = _myBox.get('CURRENT_HABIT_LIST');
     double doneCounter = 0;
-    for(int i = 0; i < totalTasks.length; ++i){
-      if (totalTasks[i][1] == true){
+    for(int i = 0; i < todaysHabitList.length; ++i){
+      if (todaysHabitList[i][1] == true){
         doneCounter += 1;
       }
     }
-    int length = totalTasks.length;
-    if (totalTasks.length < 1){
+    int length = todaysHabitList.length;
+    if (todaysHabitList.length < 1){
       length = 1;
     }
     progress = doneCounter / length;
@@ -79,6 +78,7 @@ class HabitDatabase {
         todaysHabitList[i].add(false);
       }
     }
+    getProgress();
   }
 
   List filterByDate(String date) {
