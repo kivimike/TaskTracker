@@ -108,7 +108,7 @@ class _HomePageState extends State<HomePage> {
         _newHabitNameController.text,
         false,
         _newHabitDescriptionController.text,
-        newDate,
+        newDate, false,
       ]);
     });
 
