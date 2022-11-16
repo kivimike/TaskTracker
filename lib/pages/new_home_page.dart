@@ -27,12 +27,12 @@ class _NewHomePageState extends State<NewHomePage> {
     // if there is no current habit list, then it is the 1st time ever opening the app
     // then create default data
 
-    if (_myBox.get('VERSION') == null){
-      db.updateScript();
-    }
 
     if (_myBox.get("CURRENT_HABIT_LIST") == null) {
       db.createDefaultData();
+    } else if (_myBox.get('VERSION') == null){
+      db.updateScript();
+      db.loadData(_datetime);
     }
 
     // there already exists data, this is not the first time
