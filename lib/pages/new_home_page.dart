@@ -189,7 +189,7 @@ class _NewHomePageState extends State<NewHomePage> {
     if (dateChangedFlag == true) {
       newDate = _datetime;
     } else {
-      newDate = db.todaysHabitList[index][3];
+      newDate = db.todaysHabitList[index]['taskDateTime'];
     }
     dateChangedFlag = false;
     setState(() {
