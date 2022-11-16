@@ -4,8 +4,8 @@ import 'package:habit_tracker/components/date_time_picker.dart';
 class MyAlertBox extends StatelessWidget {
   final controllerName;
   final controllerDescription;
-  final String taskName;
-  final String taskDescription;
+  String taskName;
+  String taskDescription;
   late DateTime dateTime;
   final Function(DateTime?)? getDate;
   final VoidCallback onSave;
@@ -45,6 +45,7 @@ class MyAlertBox extends StatelessWidget {
             minLines: 1,
             maxLines: 2,
             controller: controllerName..text = taskName,
+            onChanged: (text){taskName = controllerName.text;},
             style: const TextStyle(color: Colors.black87),
             decoration: InputDecoration(
               hintText: 'Enter the task ...',
@@ -64,6 +65,7 @@ class MyAlertBox extends StatelessWidget {
           child: TextField(
             autofocus: true,
             controller: controllerDescription..text = taskDescription,
+            onChanged: (text){taskDescription = controllerDescription.text;},
             style: const TextStyle(color: Colors.black87),
             minLines: 1,
             maxLines: 10,
