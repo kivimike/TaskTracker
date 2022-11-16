@@ -30,10 +30,12 @@ class _NewHomePageState extends State<NewHomePage> {
 
     if (_myBox.get("CURRENT_HABIT_LIST") == null) {
       db.createDefaultData();
-    } else if (_myBox.get('VERSION') == null){
-      db.updateScript();
-      db.loadData(_datetime);
+      _myBox.put('VERSION', '0.0.1');
     }
+    // else if (_myBox.get('VERSION') == null){
+    //   db.updateScript();
+    //   db.loadData(_datetime);
+    // }
 
     // there already exists data, this is not the first time
     else {
