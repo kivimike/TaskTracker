@@ -7,7 +7,9 @@ import 'package:habit_tracker/components/my_alert_box.dart';
 import 'package:habit_tracker/components/progress_bar.dart';
 import 'package:habit_tracker/data/habit_database.dart';
 import 'package:habit_tracker/data/new_habit_database.dart';
+import 'package:habit_tracker/notifications/local_notification_service.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'dart:math' as math;
 
 import '../components/task_view.dart';
 
@@ -21,9 +23,13 @@ class NewHomePage extends StatefulWidget {
 class _NewHomePageState extends State<NewHomePage> {
   NewHabitDatabase db = NewHabitDatabase();
   final _myBox = Hive.box("Habit_Database");
+  late final LocalNotificationService service;
 
   @override
   void initState() {
+    service = LocalNotificationService();
+    service.intialize();
+
     // if there is no current habit list, then it is the 1st time ever opening the app
     // then create default data
 
@@ -97,7 +103,7 @@ class _NewHomePageState extends State<NewHomePage> {
   }
 
   // save new habit
-  void saveNewHabit() {
+  void saveNewHabit() async {
     updateSheetDateTime();
 
     late DateTime newDate;
@@ -109,6 +115,7 @@ class _NewHomePageState extends State<NewHomePage> {
     }
     dateChangedFlag = false;
 
+    int notification_id = math.Random().nextInt(1000000000);
     // add new habit to todays habit list
     setState(() {
       db.todaysHabitList.add({
@@ -117,8 +124,15 @@ class _NewHomePageState extends State<NewHomePage> {
         'taskDescription': _newHabitDescriptionController.text,
         'taskDateTime': newDate,
         'inProgressStatus': false,
+        'notification_id': notification_id,
       });
     });
+
+    await service.showScheduledNotification(
+        id: notification_id,
+        title: 'Tasks',
+        body: _newHabitNameController.text,
+        dateTime: newDate);
 
     // clear textfield
     _newHabitNameController.clear();
@@ -184,7 +198,7 @@ class _NewHomePageState extends State<NewHomePage> {
   }
 
   // save existing habit with a new name
-  void saveExistingHabit(int index) {
+  void saveExistingHabit(int index) async {
     late DateTime newDate;
     //print(dateChangedFlag);
     if (dateChangedFlag == true) {
@@ -192,10 +206,28 @@ class _NewHomePageState extends State<NewHomePage> {
     } else {
       newDate = db.todaysHabitList[index]['taskDateTime'];
     }
+    if (db.todaysHabitList[index]['notification_id'] == null) {
+      int notification_id = math.Random().nextInt(1000000000);
+      db.todaysHabitList[index]['notification_id'] = notification_id;
+      await service.showScheduledNotification(
+          id: notification_id,
+          title: 'Tasks',
+          body: _newHabitNameController.text,
+          dateTime: newDate);
+    } else {
+      await service
+          .deleteNotification(db.todaysHabitList[index]['notification_id']);
+      await service.showScheduledNotification(
+          id: db.todaysHabitList[index]['notification_id'],
+          title: 'Tasks',
+          body: _newHabitNameController.text,
+          dateTime: newDate);
+    }
     dateChangedFlag = false;
     setState(() {
       db.todaysHabitList[index]['taskName'] = _newHabitNameController.text;
-      db.todaysHabitList[index]['taskDescription'] = _newHabitDescriptionController.text;
+      db.todaysHabitList[index]['taskDescription'] =
+          _newHabitDescriptionController.text;
       db.todaysHabitList[index]['taskDateTime'] = newDate;
     });
     _newHabitNameController.clear();
@@ -274,7 +306,8 @@ class _NewHomePageState extends State<NewHomePage> {
                     onChanged: (value) => checkBoxTapped(value, index),
                     settingsTapped: (context) => openHabitSettings(index),
                     deleteTapped: (context) => deleteHabit(index),
-                    inProgressStatus: db.todaysHabitList[index]['inProgressStatus'],
+                    inProgressStatus: db.todaysHabitList[index]
+                        ['inProgressStatus'],
                   ),
                 );
               } else {
