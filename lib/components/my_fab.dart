@@ -13,6 +13,7 @@ class MyFloatingActionButton extends StatelessWidget {
     return FloatingActionButton(
       onPressed: onPressed,
       child: Icon(Icons.add),
+      backgroundColor: Colors.green.shade400,
     );
   }
 }

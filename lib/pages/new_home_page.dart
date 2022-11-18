@@ -268,6 +268,12 @@ class _NewHomePageState extends State<NewHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        //centerTitle: true,
+        backgroundColor: Colors.green.shade400,
+        title: Container(child: Text('Tasks', style: TextStyle(letterSpacing: 1.5,
+        fontWeight: FontWeight.w400, fontSize: 28))),
+      ),
       backgroundColor: Colors.grey[300],
       floatingActionButton: MyFloatingActionButton(onPressed: createNewHabit),
       body: ListView(
@@ -276,6 +282,7 @@ class _NewHomePageState extends State<NewHomePage> {
           MonthlySummary(
             datasets: db.heatMapDataSet,
             startDate: _myBox.get("START_DATE"),
+            getDate: (value) =>setDate(value),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 16),

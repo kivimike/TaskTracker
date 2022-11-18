@@ -5,20 +5,24 @@ import 'package:habit_tracker/datetime/date_time.dart';
 class MonthlySummary extends StatelessWidget {
   final Map<DateTime, int>? datasets;
   final String startDate;
+  final Function(DateTime?)? getDate;
 
   const MonthlySummary({
     super.key,
     required this.datasets,
     required this.startDate,
+    required this.getDate,
   });
 
   @override
   Widget build(BuildContext context) {
+    DateTime now = DateTime.now();
+    DateTime referenceDate = DateTime(now.year, now.month, 1);
     return Container(
-      padding: const EdgeInsets.only(top: 25, bottom: 25),
+      padding: const EdgeInsets.only(top: 25, bottom:25),
       child: HeatMap(
-        startDate: createDateTimeObject(startDate),
-        endDate: DateTime.now().add(Duration(days: 0)),
+        startDate: referenceDate.subtract(Duration(days:21)),
+        endDate: referenceDate.add(Duration(days: 36)),
         datasets: datasets,
         colorMode: ColorMode.color,
         defaultColor: Colors.grey[200],
@@ -40,8 +44,7 @@ class MonthlySummary extends StatelessWidget {
           10: Color.fromARGB(255, 2, 179, 8),
         },
         onClick: (value) {
-          ScaffoldMessenger.of(context)
-              .showSnackBar(SnackBar(content: Text(value.toString())));
+          getDate!(value);
         },
       ),
     );

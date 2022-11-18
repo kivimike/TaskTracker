@@ -238,6 +238,7 @@ class _HomePageState extends State<HomePage> {
           MonthlySummary(
             datasets: db.heatMapDataSet,
             startDate: _myBox.get("START_DATE"),
+            getDate: setDate,
           ),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 16),

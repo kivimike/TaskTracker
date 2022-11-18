@@ -140,14 +140,14 @@ class NewHabitDatabase {
     _myBox.put("CURRENT_HABIT_LIST", todaysHabitList);
 
     // calculate habit complete percentages for each day
-    calculateHabitPercentages();
+    calculateHabitPercentages(date);
 
     // load heat map
     loadHeatMap();
     getProgress();
   }
 
-  void calculateHabitPercentages() {
+  void calculateHabitPercentages(date) {
     int countCompleted = 0;
     for (int i = 0; i < todaysHabitList.length; i++) {
       if (todaysHabitList[i]['taskCompleted'] == true) {
@@ -161,14 +161,17 @@ class NewHabitDatabase {
 
     // key: "PERCENTAGE_SUMMARY_yyyymmdd"
     // value: string of 1dp number between 0.0-1.0 inclusive
-    _myBox.put("PERCENTAGE_SUMMARY_${todaysDateFormatted()}", percent);
+    _myBox.put("PERCENTAGE_SUMMARY_${convertDateTimeToString(date)}", percent);
   }
 
   void loadHeatMap() {
-    DateTime startDate = createDateTimeObject(_myBox.get("START_DATE"));
-
+    //DateTime startDate = createDateTimeObject(_myBox.get("START_DATE"));
+    DateTime now = DateTime.now();
+    DateTime referenceDate = DateTime(now.year, now.month, 1);
+    DateTime startDate = referenceDate.subtract(Duration(days:21));
+    DateTime endDate = referenceDate.add(Duration(days: 36));
     // count the number of days to load
-    int daysInBetween = DateTime.now().difference(startDate).inDays;
+    int daysInBetween = endDate.difference(startDate).inDays;
 
     // go from start date to today and add each percentage to the dataset
     // "PERCENTAGE_SUMMARY_yyyymmdd" will be the key in the database
