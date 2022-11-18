@@ -127,12 +127,13 @@ class _NewHomePageState extends State<NewHomePage> {
         'notification_id': notification_id,
       });
     });
-
-    await service.showScheduledNotification(
-        id: notification_id,
-        title: 'Tasks',
-        body: _newHabitNameController.text,
-        dateTime: newDate);
+    if (newDate.isAfter(DateTime.now()) == true) {
+      await service.showScheduledNotification(
+          id: notification_id,
+          title: 'Tasks',
+          body: _newHabitNameController.text,
+          dateTime: newDate.add(Duration(seconds: 10)));
+    }
 
     // clear textfield
     _newHabitNameController.clear();
@@ -209,19 +210,23 @@ class _NewHomePageState extends State<NewHomePage> {
     if (db.todaysHabitList[index]['notification_id'] == null) {
       int notification_id = math.Random().nextInt(1000000000);
       db.todaysHabitList[index]['notification_id'] = notification_id;
-      await service.showScheduledNotification(
-          id: notification_id,
-          title: 'Tasks',
-          body: _newHabitNameController.text,
-          dateTime: newDate);
+      if (newDate.isAfter(DateTime.now())) {
+        await service.showScheduledNotification(
+            id: notification_id,
+            title: 'Tasks',
+            body: _newHabitNameController.text,
+            dateTime: newDate);
+      }
     } else {
       await service
           .deleteNotification(db.todaysHabitList[index]['notification_id']);
-      await service.showScheduledNotification(
-          id: db.todaysHabitList[index]['notification_id'],
-          title: 'Tasks',
-          body: _newHabitNameController.text,
-          dateTime: newDate);
+      if (newDate.isAfter(DateTime.now())) {
+        await service.showScheduledNotification(
+            id: db.todaysHabitList[index]['notification_id'],
+            title: 'Tasks',
+            body: _newHabitNameController.text,
+            dateTime: newDate);
+      }
     }
     dateChangedFlag = false;
     setState(() {
