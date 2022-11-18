@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:habit_tracker/pages/home_page.dart';
 import 'package:habit_tracker/pages/new_home_page.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 

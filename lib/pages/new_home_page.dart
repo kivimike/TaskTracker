@@ -5,7 +5,6 @@ import 'package:habit_tracker/components/month_summary.dart';
 import 'package:habit_tracker/components/my_fab.dart';
 import 'package:habit_tracker/components/my_alert_box.dart';
 import 'package:habit_tracker/components/progress_bar.dart';
-import 'package:habit_tracker/data/habit_database.dart';
 import 'package:habit_tracker/data/new_habit_database.dart';
 import 'package:habit_tracker/notifications/local_notification_service.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -192,6 +191,7 @@ class _NewHomePageState extends State<NewHomePage> {
           taskName: db.todaysHabitList[index]['taskName'],
           taskContent: db.todaysHabitList[index]['taskDescription'],
           dateTime: db.todaysHabitList[index]['taskDateTime'],
+          duration: db.todaysHabitList[index]['timeTaken'] ?? 0,
           onCancel: cancelDialogBox,
         );
       },
@@ -252,13 +252,35 @@ class _NewHomePageState extends State<NewHomePage> {
     db.updateDatabase(_sheetDateTime);
   }
 
+  void writeTaskBeginDateTime(index) {
+    if (db.todaysHabitList[index]['workPeriods'] == null){
+      db.todaysHabitList[index]['workPeriods'] = [[DateTime.now(),DateTime.now()]];
+    } else {
+      db.todaysHabitList[index]['workPeriods'].add([DateTime.now(),DateTime.now()]);
+    }
+  }
+
+  void writeTaskEndDateTime(index) {
+    DateTime curStart = db.todaysHabitList[index]['workPeriods'][db.todaysHabitList[index]['workPeriods'].length - 1][0];
+    DateTime curEnd = DateTime.now();
+
+    db.todaysHabitList[index]['workPeriods'][db.todaysHabitList[index]['workPeriods'].length - 1][1] = curEnd;
+    if (db.todaysHabitList[index]['timeTaken'] == null) {
+      db.todaysHabitList[index]['timeTaken'] = curEnd.difference(curStart).inMinutes;
+    } else {
+      db.todaysHabitList[index]['timeTaken'] += curEnd.difference(curStart).inMinutes;
+    }
+  }
+
   void changeProgressStatus(index) {
     if (db.todaysHabitList[index]['inProgressStatus'] == true) {
       setState(() {
+        writeTaskEndDateTime(index);
         db.todaysHabitList[index]['inProgressStatus'] = false;
       });
     } else if (db.todaysHabitList[index]['inProgressStatus'] == false) {
       setState(() {
+        writeTaskBeginDateTime(index);
         db.todaysHabitList[index]['inProgressStatus'] = true;
       });
     }

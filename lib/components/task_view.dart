@@ -5,6 +5,7 @@ class TaskView extends StatelessWidget {
   final String taskName;
   final String taskContent;
   final DateTime dateTime;
+  final duration;
   final VoidCallback onCancel;
 
   const TaskView(
@@ -12,10 +13,14 @@ class TaskView extends StatelessWidget {
       required this.taskName,
       required this.taskContent,
       required this.dateTime,
+      required this.duration,
       required this.onCancel});
 
   @override
   Widget build(BuildContext context) {
+    String hours = (duration ~/ 60).toString().padLeft(2, '0');
+    String minutes = (duration % 60).toString().padLeft(2, '0');
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.transparent,
@@ -150,6 +155,12 @@ class TaskView extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
+                      Text('Spent: ${hours}:${minutes}',
+                          style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w400,
+                              letterSpacing: 2)),
+                      Spacer(),
                       IconButton(
                         onPressed: () async {
                           await Clipboard.setData(ClipboardData(
@@ -157,7 +168,6 @@ class TaskView extends StatelessWidget {
                         },
                         icon: Icon(Icons.copy),
                       ),
-                      Spacer(),
                       MaterialButton(
                         elevation: 1,
                         shape: RoundedRectangleBorder(
@@ -165,7 +175,7 @@ class TaskView extends StatelessWidget {
                         ),
                         onPressed: onCancel,
                         child: Text(
-                          'Cancel',
+                          'Back',
                           style: TextStyle(color: Colors.grey.shade200),
                         ),
                         color: Colors.green,
