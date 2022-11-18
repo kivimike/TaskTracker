@@ -34,8 +34,8 @@ class progressBar extends StatelessWidget {
             AnimatedContainer(
               duration: duration,
               height: MediaQuery.of(context).size.height * height,
-              width: MediaQuery.of(context).size.width * progress * 0.8 -
-                  MediaQuery.of(context).size.width * 0.01 * indicator(),
+              width: MediaQuery.of(context).size.width * progress * 0.78
+                  // - MediaQuery.of(context).size.width * 0.01 * indicator(),
             ),
             Material(
               elevation: 5,
@@ -59,7 +59,7 @@ class progressBar extends StatelessWidget {
                   duration: duration,
                   height: MediaQuery.of(context).size.height * height,
                   width:
-                      MediaQuery.of(context).size.width * 0.8 * (1 - progress),
+                      MediaQuery.of(context).size.width * 0.78 * (1 - progress),
                 ))
           ],
         ),
