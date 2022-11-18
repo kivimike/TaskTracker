@@ -243,7 +243,12 @@ class _NewHomePageState extends State<NewHomePage> {
   }
 
   // delete habit
-  void deleteHabit(int index) {
+  void deleteHabit(int index) async {
+    if (db.todaysHabitList[index]['notification_id'] != null &&
+        db.todaysHabitList[index]['taskDateTime'].isAfter(DateTime.now())) {
+      await service
+          .deleteNotification(db.todaysHabitList[index]['notification_id']);
+    }
     setState(() {
       db.todaysHabitList.removeAt(index);
       db.loadData(_sheetDateTime);
@@ -253,22 +258,29 @@ class _NewHomePageState extends State<NewHomePage> {
   }
 
   void writeTaskBeginDateTime(index) {
-    if (db.todaysHabitList[index]['workPeriods'] == null){
-      db.todaysHabitList[index]['workPeriods'] = [[DateTime.now(),DateTime.now()]];
+    if (db.todaysHabitList[index]['workPeriods'] == null) {
+      db.todaysHabitList[index]['workPeriods'] = [
+        [DateTime.now(), DateTime.now()]
+      ];
     } else {
-      db.todaysHabitList[index]['workPeriods'].add([DateTime.now(),DateTime.now()]);
+      db.todaysHabitList[index]['workPeriods']
+          .add([DateTime.now(), DateTime.now()]);
     }
   }
 
   void writeTaskEndDateTime(index) {
-    DateTime curStart = db.todaysHabitList[index]['workPeriods'][db.todaysHabitList[index]['workPeriods'].length - 1][0];
+    DateTime curStart = db.todaysHabitList[index]['workPeriods']
+        [db.todaysHabitList[index]['workPeriods'].length - 1][0];
     DateTime curEnd = DateTime.now();
 
-    db.todaysHabitList[index]['workPeriods'][db.todaysHabitList[index]['workPeriods'].length - 1][1] = curEnd;
+    db.todaysHabitList[index]['workPeriods']
+        [db.todaysHabitList[index]['workPeriods'].length - 1][1] = curEnd;
     if (db.todaysHabitList[index]['timeTaken'] == null) {
-      db.todaysHabitList[index]['timeTaken'] = curEnd.difference(curStart).inMinutes;
+      db.todaysHabitList[index]['timeTaken'] =
+          curEnd.difference(curStart).inMinutes;
     } else {
-      db.todaysHabitList[index]['timeTaken'] += curEnd.difference(curStart).inMinutes;
+      db.todaysHabitList[index]['timeTaken'] +=
+          curEnd.difference(curStart).inMinutes;
     }
   }
 
@@ -293,8 +305,12 @@ class _NewHomePageState extends State<NewHomePage> {
       appBar: AppBar(
         //centerTitle: true,
         backgroundColor: Colors.green.shade400,
-        title: Container(child: Text('Tasks', style: TextStyle(letterSpacing: 1.5,
-        fontWeight: FontWeight.w400, fontSize: 28))),
+        title: Container(
+            child: Text('Tasks',
+                style: TextStyle(
+                    letterSpacing: 1.5,
+                    fontWeight: FontWeight.w400,
+                    fontSize: 28))),
       ),
       backgroundColor: Colors.grey[300],
       floatingActionButton: MyFloatingActionButton(onPressed: createNewHabit),
@@ -304,7 +320,7 @@ class _NewHomePageState extends State<NewHomePage> {
           MonthlySummary(
             datasets: db.heatMapDataSet,
             startDate: _myBox.get("START_DATE"),
-            getDate: (value) =>setDate(value),
+            getDate: (value) => setDate(value),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 16),
