@@ -4,11 +4,13 @@ import 'package:habit_tracker/components/habit_tile.dart';
 import 'package:habit_tracker/components/month_summary.dart';
 import 'package:habit_tracker/components/my_fab.dart';
 import 'package:habit_tracker/components/my_alert_box.dart';
+import 'package:habit_tracker/components/navigation_bar.dart';
 import 'package:habit_tracker/components/progress_bar.dart';
 import 'package:habit_tracker/data/new_habit_database.dart';
 import 'package:habit_tracker/notifications/local_notification_service.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'dart:math' as math;
+
 
 import '../components/task_view.dart';
 
@@ -312,6 +314,7 @@ class _NewHomePageState extends State<NewHomePage> {
                     fontWeight: FontWeight.w400,
                     fontSize: 28))),
       ),
+      drawer: SideNavigationBar(),
       backgroundColor: Colors.grey[300],
       floatingActionButton: MyFloatingActionButton(onPressed: createNewHabit),
       body: ListView(

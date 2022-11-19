@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:habit_tracker/pages/new_home_page.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:habit_tracker/components/routes.dart' as route;
 
 void main() async {
   // initialize hive
@@ -19,8 +20,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      //home: HomePage(),
-      home: NewHomePage(),
+      //home: NewHomePage(),
+      onGenerateRoute: route.controller,
+      initialRoute: route.homePage,
       theme: ThemeData(primarySwatch: Colors.green),
     );
   }
