@@ -79,7 +79,7 @@ class _DayAnalysisState extends State<DayAnalysis> {
   int getTimeSpent(List<Task> df) {
     int timeSpent = 0;
     for (int i = 0; i < df.length; ++i) {
-        timeSpent += df[i].timeTaken;
+      timeSpent += df[i].timeTaken;
     }
     return timeSpent;
   }

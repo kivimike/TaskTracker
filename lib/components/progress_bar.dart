@@ -9,6 +9,8 @@ class progressBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const double height = 0.008;
+    const curve = Curves.easeInOut;
+
     Duration duration = Duration(seconds: 0, milliseconds: (800 / length).toInt()+400);
     int indicator() {
       int ind;
@@ -33,6 +35,7 @@ class progressBar extends StatelessWidget {
           children: [
             AnimatedContainer(
               duration: duration,
+              curve: curve,
               height: MediaQuery.of(context).size.height * height,
               width: MediaQuery.of(context).size.width * progress * 0.78
                   // - MediaQuery.of(context).size.width * 0.01 * indicator(),
@@ -57,6 +60,7 @@ class progressBar extends StatelessWidget {
                 color: Colors.red.shade400,
                 child: AnimatedContainer(
                   duration: duration,
+                  curve: curve,
                   height: MediaQuery.of(context).size.height * height,
                   width:
                       MediaQuery.of(context).size.width * 0.78 * (1 - progress),
