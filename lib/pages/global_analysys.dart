@@ -4,28 +4,49 @@ import 'package:habit_tracker/data/new_habit_database.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 class DayInfo {
-  DayInfo(this.dateTime, this.completed, this.total);
+  DayInfo(this.dateTime, this.completed, this.total, this.timeSpent);
 
   final DateTime dateTime;
   final int completed;
   final int total;
+  final int timeSpent;
+}
+
+class FancyDateString {
+  final int minutes;
+
+  FancyDateString(this.minutes);
+
+  @override
+  String toString() {
+    if (minutes < 60) {
+      return '${minutes.toString()} min';
+    } else if (minutes < 1440) {
+      return '${minutes ~/ 60}h ${minutes % 60}m';
+    } else if (minutes < 525600) {
+      return '${minutes ~/ 1440}d ${(minutes % 1440) ~/ 60}h';
+    } else {
+      return '${minutes ~/ 525600}y ${(minutes % 525600) ~/ 1440}d';
+    }
+  }
 }
 
 class FancyIntString {
   final int value;
+
   FancyIntString(this.value);
 
   @override
   String toString() {
-    if (value <  1000){
+    if (value < 1000) {
       return value.toString();
     } else if (value >= 1000 && value < 1000000) {
       int factor = (value / 1000).floor();
       return '${factor}k';
-    } else if (value >= 1000000 && value < 1000000000){
+    } else if (value >= 1000000 && value < 1000000000) {
       int factor = (value / 1000000).floor();
       return '${factor}M';
-    } else if (value >= 1000000000){
+    } else if (value >= 1000000000) {
       int factor = (value / 1000000000).floor();
       return '${factor}B';
     } else {
@@ -52,32 +73,39 @@ class _GlobalAnalysisState extends State<GlobalAnalysis> {
     _tooltipBehavior = TooltipBehavior(
         enable: true, header: 'How do you perform in a  long run?');
     dayInfo = getDayInfo(db.getDaysResult());
-    print('object');
   }
 
   List<DayInfo> getDayInfo(List dayInfo) {
     List<DayInfo> df = [];
     for (int i = 0; i < dayInfo.length; ++i) {
-      df.add(DayInfo(
-          dayInfo[i]['date'], dayInfo[i]['completed'], dayInfo[i]['total']));
+      df.add(DayInfo(dayInfo[i]['date'], dayInfo[i]['completed'],
+          dayInfo[i]['total'], dayInfo[i]['timeSpent']));
     }
     return df;
   }
-  
-  int getTotalNumberOfTasks(List<DayInfo> df){
+
+  int getTotalNumberOfTasks(List<DayInfo> df) {
     int total = 0;
-    for (int i = 0; i < df.length;++i){
+    for (int i = 0; i < df.length; ++i) {
       total += df[i].total;
     }
     return total;
   }
 
-  int getNumberOfCompletedTasks(List<DayInfo> df){
+  int getNumberOfCompletedTasks(List<DayInfo> df) {
     int completed = 0;
-    for (int i = 0; i < df.length;++i){
+    for (int i = 0; i < df.length; ++i) {
       completed += df[i].completed;
     }
     return completed;
+  }
+
+  int getTotalTimeSpent(List<DayInfo> df) {
+    int minutes = 0;
+    for (int i = 0; i < df.length; ++i) {
+      minutes += df[i].timeSpent;
+    }
+    return minutes;
   }
 
   @override
@@ -97,36 +125,98 @@ class _GlobalAnalysisState extends State<GlobalAnalysis> {
         backgroundColor: Colors.grey[300],
         body: Center(
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Padding(
-              padding: EdgeInsets.only(left: 8.0, top: MediaQuery.of(context).size.height * 0.1),
-              child: Text(
-                'Total tasks: ${FancyIntString(getTotalNumberOfTasks(dayInfo)).toString()}',
-                style: TextStyle(
-                    fontSize: 32,
-                  color: Colors.grey.shade600,
-                  letterSpacing: 2
-                ),
+              padding: const EdgeInsets.only(
+                  left: 16.0, right: 16.0, bottom: 16.0, top: 48.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Total tasks',
+                        style: TextStyle(
+                            fontSize: 18,
+                            color: Colors.grey.shade600,
+                            letterSpacing: 2),
+                        textAlign: TextAlign.center,
+                      ),
+                      Text(
+                        '${FancyIntString(getTotalNumberOfTasks(dayInfo)).toString()}',
+                        style: TextStyle(
+                            fontSize: 50,
+                            color: Colors.grey.shade600,
+                            letterSpacing: 2),
+                        textAlign: TextAlign.center,
+                      ),
+                    ],
+                  ),
+                ],
               ),
             ),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: MediaQuery.of(context).size.height * 0.025),
-              child: Text(
-                'Tasks completed: ${FancyIntString(getNumberOfCompletedTasks(dayInfo)).toString()}',
-                style: TextStyle(
-                    fontSize: 32,
-                    color: Colors.grey.shade600,
-                  letterSpacing: 2
-                ),
+              padding: const EdgeInsets.all(16.0),
+              child: Row(
+                children: [
+                  Spacer(),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Text(
+                        'Tasks completed',
+                        style: TextStyle(
+                            fontSize: 18,
+                            color: Colors.grey.shade600,
+                            letterSpacing: 2),
+                      ),
+                      Text(
+                        '${FancyIntString(getNumberOfCompletedTasks(dayInfo)).toString()}',
+                        style: TextStyle(
+                            fontSize: 50,
+                            color: Colors.grey.shade600,
+                            letterSpacing: 2),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(
+                  left: 16.0, right: 16.0, bottom: 8.0, top: 16.0),
+              child: Row(
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Total time spent',
+                        style: TextStyle(
+                            fontSize: 18,
+                            color: Colors.grey.shade600,
+                            letterSpacing: 2),
+                      ),
+                      Text(
+                        FancyDateString(getTotalTimeSpent(dayInfo)).toString(),
+                        style: TextStyle(
+                            fontSize: 36,
+                            color: Colors.grey.shade600,
+                            letterSpacing: 2),
+                      ),
+                    ],
+                  ),
+                ],
               ),
             ),
             Spacer(),
             SfCartesianChart(
-              title: ChartTitle(text: "Let's see how do you perform in a long run", textStyle: TextStyle(
-                fontSize: 12,
-                color: Colors.grey.shade600
-              )),
+                title: ChartTitle(
+                    text: "Let's see how do you perform in a long run",
+                    textStyle:
+                        TextStyle(fontSize: 12, color: Colors.grey.shade600)),
                 primaryXAxis: DateTimeAxis(isVisible: false),
                 primaryYAxis: (NumericAxis(isVisible: false)),
                 tooltipBehavior: _tooltipBehavior,

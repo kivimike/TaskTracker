@@ -15,15 +15,15 @@ class NewHabitDatabase {
     });
   }
 
-  void getProgress(){
+  void getProgress() {
     double doneCounter = 0;
-    for(int i = 0; i < todaysHabitList.length; ++i){
-      if (todaysHabitList[i]['taskCompleted'] == true){
+    for (int i = 0; i < todaysHabitList.length; ++i) {
+      if (todaysHabitList[i]['taskCompleted'] == true) {
         doneCounter += 1;
       }
     }
     int length = todaysHabitList.length;
-    if (todaysHabitList.length < 1){
+    if (todaysHabitList.length < 1) {
       length = 1;
     }
     progress = doneCounter / length;
@@ -38,40 +38,37 @@ class NewHabitDatabase {
         'taskCompleted': false,
         'taskDescription': "Information about the task",
         'taskDateTime': DateTime.now(),
-        'inProgressStatus' : false,
-
+        'inProgressStatus': false,
       },
       {
         'taskName': "Tap me to open!",
         'taskCompleted': false,
-        'taskDescription': "Tapping the tile will reveal information about the task",
+        'taskDescription':
+            "Tapping the tile will reveal information about the task",
         'taskDateTime': DateTime.now(),
-        'inProgressStatus' : false,
-
+        'inProgressStatus': false,
       },
       {
         'taskName': "Swipe Left",
         'taskCompleted': false,
         'taskDescription': "Swipe left to edit or remove your task",
         'taskDateTime': DateTime.now(),
-        'inProgressStatus' : false,
-
+        'inProgressStatus': false,
       },
       {
         'taskName': '"Plus" button',
         'taskCompleted': false,
         'taskDescription': 'Tap on a "plus" button to create your new task',
         'taskDateTime': DateTime.now(),
-        'inProgressStatus' : false,
-
+        'inProgressStatus': false,
       },
       {
         'taskName': "Hold me!",
         'taskCompleted': false,
-        'taskDescription': "Holding the task will change it's status to 'In Progress'",
+        'taskDescription':
+            "Holding the task will change it's status to 'In Progress'",
         'taskDateTime': DateTime.now(),
-        'inProgressStatus' : false,
-
+        'inProgressStatus': false,
       },
     ];
 
@@ -109,8 +106,9 @@ class NewHabitDatabase {
   List getDates(date) {
     List dates = [];
     for (int i = 0; i < todaysHabitList.length; ++i) {
-      if (dates.contains(convertDateTimeToString(todaysHabitList[i]['taskDateTime'])) ==
-          false &&
+      if (dates.contains(convertDateTimeToString(
+                  todaysHabitList[i]['taskDateTime'])) ==
+              false &&
           convertDateTimeToString(todaysHabitList[i]['taskDateTime']) !=
               convertDateTimeToString(date)) {
         dates.add(convertDateTimeToString(todaysHabitList[i]['taskDateTime']));
@@ -164,19 +162,35 @@ class NewHabitDatabase {
     _myBox.put("PERCENTAGE_SUMMARY_${convertDateTimeToString(date)}", percent);
   }
 
+  int getTimeSpent(List taskList) {
+    int timeSpent = 0;
+    for (int i = 0; i < taskList.length; ++i) {
+      int curTime = taskList[i]['timeTaken'] ?? 0;
+      timeSpent += curTime;
+
+    }
+    return timeSpent;
+  }
+
   List getDaysResult() {
     List result = [];
     DateTime startDate = createDateTimeObject(_myBox.get("START_DATE"));
     int daysInBetween = DateTime.now().difference(startDate).inDays;
-    for (int i = 0; i < daysInBetween + 1; ++i){
-      List taskList = _myBox.get(convertDateTimeToString(startDate.add(Duration(days: i))));
+    for (int i = 0; i < daysInBetween + 1; ++i) {
+      List taskList =
+          _myBox.get(convertDateTimeToString(startDate.add(Duration(days: i))));
       int done = 0;
-      for (int j = 0; j < taskList.length; ++j){
-        if (taskList[j]['taskCompleted'] == true){
+      for (int j = 0; j < taskList.length; ++j) {
+        if (taskList[j]['taskCompleted'] == true) {
           done += 1;
         }
       }
-      result.add({'total': taskList.length, 'completed': done, 'date' : startDate.add(Duration(days: i))});
+      result.add({
+        'total': taskList.length,
+        'completed': done,
+        'date': startDate.add(Duration(days: i)),
+        'timeSpent': getTimeSpent(taskList),
+      });
     }
     return result;
   }
@@ -185,7 +199,7 @@ class NewHabitDatabase {
     //DateTime startDate = createDateTimeObject(_myBox.get("START_DATE"));
     DateTime now = DateTime.now();
     DateTime referenceDate = DateTime(now.year, now.month, 1);
-    DateTime startDate = referenceDate.subtract(Duration(days:21));
+    DateTime startDate = referenceDate.subtract(Duration(days: 21));
     DateTime endDate = referenceDate.add(Duration(days: 36));
     // count the number of days to load
     int daysInBetween = endDate.difference(startDate).inDays;
@@ -235,20 +249,19 @@ class NewHabitDatabase {
 
       var oldData = _myBox.get(yyyymmdd);
       List newData = [];
-      
-      if (oldData != null){
-        for (int j = 0; j < oldData.length; j++){
+
+      if (oldData != null) {
+        for (int j = 0; j < oldData.length; j++) {
           newData.add({
             'taskName': oldData[j][0],
             'taskCompleted': oldData[j][1],
             'taskDescription': oldData[j][2],
             'taskDateTime': oldData[j][3],
-            'inProgressStatus' : false,
+            'inProgressStatus': false,
           });
         }
         _myBox.put(yyyymmdd, newData);
       }
-
     }
     _myBox.put('VERSION', '0.0.1');
   }
