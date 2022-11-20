@@ -333,7 +333,7 @@ class _NewHomePageState extends State<NewHomePage> {
                 progressBar(
                     progress: db.progress,
                     length: db.todaysHabitList.length + 1),
-                MyDatePicker(datetime: _sheetDateTime, getDate: setDate)
+                MyDatePicker(datetime: _sheetDateTime, getDate: setDate, color: Colors.grey.shade800,)
               ],
             ),
           ),

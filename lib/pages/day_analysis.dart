@@ -97,7 +97,7 @@ class _DayAnalysisState extends State<DayAnalysis> {
                     letterSpacing: 1.5,
                     fontWeight: FontWeight.w400,
                     fontSize: 28))),
-        actions: [MyDatePicker(datetime: _dateTime, getDate: setDate)],
+        actions: [MyDatePicker(datetime: _dateTime, getDate: setDate, color: Colors.white,)],
       ),
       drawer: SideNavigationBar(),
       backgroundColor: Colors.grey[300],

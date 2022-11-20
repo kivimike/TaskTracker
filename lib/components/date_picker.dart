@@ -3,11 +3,13 @@ import 'package:flutter/material.dart';
 class MyDatePicker extends StatefulWidget {
   late DateTime datetime;
   final Function(DateTime?)? getDate;
+  final Color color;
 
   MyDatePicker({
     super.key,
     required this.datetime,
     required this.getDate,
+    required this.color,
   });
 
   @override
@@ -45,7 +47,7 @@ class _MyDatePickerState extends State<MyDatePicker> {
         },
         icon: Icon(
           Icons.calendar_today,
-          color: Colors.black87,
+          color: widget.color,
         ));
   }
 }
