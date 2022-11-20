@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:habit_tracker/Formaters/fancy_date_string.dart';
+import 'package:habit_tracker/Formaters/fancy_int_string.dart';
 import 'package:habit_tracker/components/navigation_bar.dart';
 import 'package:habit_tracker/data/new_habit_database.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
@@ -12,48 +14,9 @@ class DayInfo {
   final int timeSpent;
 }
 
-class FancyDateString {
-  final int minutes;
 
-  FancyDateString(this.minutes);
 
-  @override
-  String toString() {
-    if (minutes < 60) {
-      return '${minutes.toString()} min';
-    } else if (minutes < 1440) {
-      return '${minutes ~/ 60}h ${minutes % 60}m';
-    } else if (minutes < 525600) {
-      return '${minutes ~/ 1440}d ${(minutes % 1440) ~/ 60}h';
-    } else {
-      return '${minutes ~/ 525600}y ${(minutes % 525600) ~/ 1440}d';
-    }
-  }
-}
 
-class FancyIntString {
-  final int value;
-
-  FancyIntString(this.value);
-
-  @override
-  String toString() {
-    if (value < 1000) {
-      return value.toString();
-    } else if (value >= 1000 && value < 1000000) {
-      int factor = (value / 1000).floor();
-      return '${factor}k';
-    } else if (value >= 1000000 && value < 1000000000) {
-      int factor = (value / 1000000).floor();
-      return '${factor}M';
-    } else if (value >= 1000000000) {
-      int factor = (value / 1000000000).floor();
-      return '${factor}B';
-    } else {
-      return super.toString();
-    }
-  }
-}
 
 class GlobalAnalysis extends StatefulWidget {
   const GlobalAnalysis({Key? key}) : super(key: key);
