@@ -200,27 +200,27 @@ class _NewHomePageState extends State<NewHomePage> {
     );
   }
 
-  void rescheduleOne(index) {
+  void rescheduleOne(index) async {
     DateTime oldDate = db.todaysHabitList[index]['taskDateTime'];
     DateTime newDate = oldDate.add(Duration(days: 1));
-    rescheduleNotification(index, newDate, db.todaysHabitList[index]['taskName']);
+    await rescheduleNotification(index, newDate, db.todaysHabitList[index]['taskName']);
     setState(() {
       db.todaysHabitList[index]['taskDateTime'] = newDate;
     });
     db.updateDatabase(_sheetDateTime);
   }
 
-  void rescheduleTwo(index){
+  void rescheduleTwo(index) async {
     DateTime oldDate = db.todaysHabitList[index]['taskDateTime'];
     DateTime newDate = oldDate.add(Duration(days: 2));
-    rescheduleNotification(index, newDate, db.todaysHabitList[index]['taskName']);
+    await rescheduleNotification(index, newDate, db.todaysHabitList[index]['taskName']);
     setState(() {
       db.todaysHabitList[index]['taskDateTime'] = newDate;
     });
     db.updateDatabase(_sheetDateTime);
   }
 
-  void rescheduleNotification(index, DateTime newDate, String taskName) async {
+  Future<void> rescheduleNotification(index, DateTime newDate, String taskName) async {
     if (db.todaysHabitList[index]['notification_id'] == null) {
       int notification_id = math.Random().nextInt(1000000000);
       db.todaysHabitList[index]['notification_id'] = notification_id;
@@ -253,7 +253,7 @@ class _NewHomePageState extends State<NewHomePage> {
     } else {
       newDate = db.todaysHabitList[index]['taskDateTime'];
     }
-    rescheduleNotification(index, newDate, _newHabitNameController.text);
+    await rescheduleNotification(index, newDate, _newHabitNameController.text);
     dateChangedFlag = false;
     setState(() {
       db.todaysHabitList[index]['taskName'] = _newHabitNameController.text;
