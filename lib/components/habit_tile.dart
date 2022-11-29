@@ -81,65 +81,69 @@ class HabitTile extends StatelessWidget {
             ),
           ],
         ),
-        child: AnimatedContainer(
-          duration: Duration(milliseconds: 150),
-          padding: EdgeInsets.symmetric(
-              horizontal: 20 * inProgressPaddingFactor(),
-              vertical: 20 * inProgressPaddingFactor()),
-          decoration: BoxDecoration(
-              color: changeTileColor(),
-              borderRadius: BorderRadius.circular(12),
-              border: Border.all(color: Colors.grey.shade100)),
-          child: Row(
-            children: [
-              // checkbox
-              Transform.scale(
-                scale: 1.2,
-                child: Checkbox(
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(5)),
-                  value: habitCompleted,
-                  onChanged: onChanged,
+        child: Material(
+            elevation: 2,
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          child: AnimatedContainer(
+            duration: Duration(milliseconds: 150),
+            padding: EdgeInsets.symmetric(
+                horizontal: 20 * inProgressPaddingFactor(),
+                vertical: 20 * inProgressPaddingFactor()),
+            decoration: BoxDecoration(
+                color: changeTileColor(),
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(color: Colors.grey.shade100)),
+            child: Row(
+              children: [
+                // checkbox
+                Transform.scale(
+                  scale: 1.2,
+                  child: Checkbox(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(5)),
+                    value: habitCompleted,
+                    onChanged: onChanged,
+                  ),
                 ),
-              ),
-              Container(
-                width: 10,
-              ),
+                Container(
+                  width: 10,
+                ),
 
-              // habit name
-              Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    habitName
-                        .replaceAll('\n', ' ')
-                        .padRight(20, ' ')
-                        .substring(0, 20),
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w400,
-                      letterSpacing: 1.2,
+                // habit name
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      habitName
+                          .replaceAll('\n', ' ')
+                          .padRight(20, ' ')
+                          .substring(0, 20),
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w400,
+                        letterSpacing: 1.2,
+                      ),
                     ),
-                  ),
-                  Container(
-                    height: 6,
-                  ),
-                  Text(
-                    'Date: ${dateTime.day}.'
-                    '${dateTime.month.toString().padLeft(2, '0')}'
-                    ' ${dateTime.hour.toString().padLeft(2, '0')}:'
-                    '${dateTime.minute.toString().padLeft(2, '0')}',
-                    style: TextStyle(
-                      fontSize: 12,
-                      letterSpacing: 1.2,
+                    Container(
+                      height: 6,
                     ),
-                  )
-                ],
-              ),
-              Spacer(),
-              Icon(Icons.keyboard_double_arrow_left_outlined)
-            ],
+                    Text(
+                      'Date: ${dateTime.day}.'
+                      '${dateTime.month.toString().padLeft(2, '0')}'
+                      ' ${dateTime.hour.toString().padLeft(2, '0')}:'
+                      '${dateTime.minute.toString().padLeft(2, '0')}',
+                      style: TextStyle(
+                        fontSize: 12,
+                        letterSpacing: 1.2,
+                      ),
+                    )
+                  ],
+                ),
+                Spacer(),
+                Icon(Icons.keyboard_double_arrow_left_outlined)
+              ],
+            ),
           ),
         ),
       ),
