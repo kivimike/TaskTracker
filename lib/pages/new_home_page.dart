@@ -200,6 +200,22 @@ class _NewHomePageState extends State<NewHomePage> {
     );
   }
 
+  void rescheduleOne(index){
+    DateTime oldDateTime = db.todaysHabitList[index]['taskDateTime'];
+    setState(() {
+      db.todaysHabitList[index]['taskDateTime'] = oldDateTime.add(Duration(days: 1));
+    });
+    db.updateDatabase(_sheetDateTime);
+  }
+
+  void rescheduleTwo(index){
+    DateTime oldDateTime = db.todaysHabitList[index]['taskDateTime'];
+    setState(() {
+      db.todaysHabitList[index]['taskDateTime'] = oldDateTime.add(Duration(days: 2));
+    });
+    db.updateDatabase(_sheetDateTime);
+  }
+
   // save existing habit with a new name
   void saveExistingHabit(int index) async {
     late DateTime newDate;
@@ -359,6 +375,8 @@ class _NewHomePageState extends State<NewHomePage> {
                     onChanged: (value) => checkBoxTapped(value, index),
                     settingsTapped: (context) => openHabitSettings(index),
                     deleteTapped: (context) => deleteHabit(index),
+                    plusOne:(context) => rescheduleOne(index),
+                    plusTwo:(context) => rescheduleTwo(index),
                     inProgressStatus: db.todaysHabitList[index]
                         ['inProgressStatus'],
                   ),

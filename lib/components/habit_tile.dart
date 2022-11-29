@@ -8,6 +8,8 @@ class HabitTile extends StatelessWidget {
   final Function(bool?)? onChanged;
   final Function(BuildContext)? settingsTapped;
   final Function(BuildContext)? deleteTapped;
+  final Function(BuildContext)? plusOne;
+  final Function(BuildContext)? plusTwo;
   final inProgressStatus;
 
   const HabitTile({
@@ -18,21 +20,22 @@ class HabitTile extends StatelessWidget {
     required this.onChanged,
     required this.settingsTapped,
     required this.deleteTapped,
+    required this.plusOne,
+    required this.plusTwo,
     required this.inProgressStatus,
   });
 
   @override
   Widget build(BuildContext context) {
-
-    Color changeTileColor(){
-      if (inProgressStatus){
+    Color changeTileColor() {
+      if (inProgressStatus) {
         return Colors.green.shade200;
       }
       return Colors.grey.shade100;
     }
 
-    double inProgressPaddingFactor(){
-      if (inProgressStatus){
+    double inProgressPaddingFactor() {
+      if (inProgressStatus) {
         return 1.2;
       }
       return 1;
@@ -41,6 +44,23 @@ class HabitTile extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 4),
       child: Slidable(
+        startActionPane: ActionPane(
+          motion: const StretchMotion(),
+          children: [
+            SlidableAction(
+              onPressed: plusTwo,
+              backgroundColor: Colors.green.shade100,
+              icon: Icons.exposure_plus_2_outlined,
+              borderRadius: BorderRadius.circular(12),
+            ),
+            SlidableAction(
+              onPressed: plusOne,
+              backgroundColor: Colors.green.shade50,
+              icon: Icons.exposure_plus_1_outlined,
+              borderRadius: BorderRadius.circular(12),
+            ),
+          ],
+        ),
         endActionPane: ActionPane(
           motion: const StretchMotion(),
           children: [
@@ -63,12 +83,13 @@ class HabitTile extends StatelessWidget {
         ),
         child: AnimatedContainer(
           duration: Duration(milliseconds: 150),
-          padding: EdgeInsets.symmetric(horizontal: 20 * inProgressPaddingFactor(), vertical: 20 * inProgressPaddingFactor()),
+          padding: EdgeInsets.symmetric(
+              horizontal: 20 * inProgressPaddingFactor(),
+              vertical: 20 * inProgressPaddingFactor()),
           decoration: BoxDecoration(
-            color: changeTileColor(),
-            borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: Colors.grey.shade100)
-          ),
+              color: changeTileColor(),
+              borderRadius: BorderRadius.circular(12),
+              border: Border.all(color: Colors.grey.shade100)),
           child: Row(
             children: [
               // checkbox
@@ -81,7 +102,9 @@ class HabitTile extends StatelessWidget {
                   onChanged: onChanged,
                 ),
               ),
-            Container(width: 10,),
+              Container(
+                width: 10,
+              ),
 
               // habit name
               Column(
@@ -89,20 +112,24 @@ class HabitTile extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    habitName.replaceAll('\n', ' ').padRight(20, ' ').substring(0, 20),
+                    habitName
+                        .replaceAll('\n', ' ')
+                        .padRight(20, ' ')
+                        .substring(0, 20),
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w400,
                       letterSpacing: 1.2,
                     ),
                   ),
-                  Container(height: 6,)
-                  ,
+                  Container(
+                    height: 6,
+                  ),
                   Text(
-                      'Date: ${dateTime.day}.'
-                          '${dateTime.month.toString().padLeft(2, '0')}'
-                          ' ${dateTime.hour.toString().padLeft(2, '0')}:'
-                          '${dateTime.minute.toString().padLeft(2, '0')}',
+                    'Date: ${dateTime.day}.'
+                    '${dateTime.month.toString().padLeft(2, '0')}'
+                    ' ${dateTime.hour.toString().padLeft(2, '0')}:'
+                    '${dateTime.minute.toString().padLeft(2, '0')}',
                     style: TextStyle(
                       fontSize: 12,
                       letterSpacing: 1.2,
