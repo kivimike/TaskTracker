@@ -75,6 +75,37 @@ class NewHabitDatabase {
     _myBox.put("START_DATE", todaysDateFormatted());
   }
 
+  void addYesterdaysTask() {
+    if (_myBox.get('LastUpdate') == convertDateTimeToString(DateTime.now())) {
+      List yesterdayList = _myBox.get(convertDateTimeToString(
+              DateTime.now().subtract(Duration(days: 1)))) ??
+          [];
+
+
+      List todaysList = _myBox.get(convertDateTimeToString(DateTime.now())) ?? [];
+      for(int i = 0; i < yesterdayList.length; ++i){
+        if (yesterdayList[i]['taskCompleted'] == false){
+          Map taskCopy = {
+            'taskName': yesterdayList[i]['taskName'],
+            'taskCompleted': false,
+            'taskDescription': yesterdayList[i]['taskDescription'],
+            'taskDateTime': yesterdayList[i]['taskDateTime'].add(Duration(days: 1)),
+            'inProgressStatus': false,
+            'timesPostponed': 0,
+          };
+          if(yesterdayList[i]['timesPostponed'] == null){
+            taskCopy['timesPostponed'] = 1;
+          } else {
+            taskCopy['timesPostponed']++;
+          }
+          todaysList.add(taskCopy);
+        }
+      }
+      _myBox.put(convertDateTimeToString(DateTime.now()), todaysList);
+      _myBox.put('LastUpdate', convertDateTimeToString(DateTime.now()));
+    }
+  }
+
   // load data if it already exists
   void loadData(datetime) {
     // if it's a new day, get habit list from database
@@ -167,7 +198,6 @@ class NewHabitDatabase {
     for (int i = 0; i < taskList.length; ++i) {
       int curTime = taskList[i]['timeTaken'] ?? 0;
       timeSpent += curTime;
-
     }
     return timeSpent;
   }

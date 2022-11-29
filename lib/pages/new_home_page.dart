@@ -45,6 +45,7 @@ class _NewHomePageState extends State<NewHomePage> {
 
     // there already exists data, this is not the first time
     else {
+      db.addYesterdaysTask();
       db.loadData(_datetime);
     }
 
@@ -387,6 +388,7 @@ class _NewHomePageState extends State<NewHomePage> {
                     plusTwo:(context) => rescheduleTwo(index),
                     inProgressStatus: db.todaysHabitList[index]
                         ['inProgressStatus'],
+                    timesPostponed: db.todaysHabitList[index]['timesPostponed'],
                   ),
                 );
               } else {

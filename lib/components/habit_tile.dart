@@ -11,6 +11,7 @@ class HabitTile extends StatelessWidget {
   final Function(BuildContext)? plusOne;
   final Function(BuildContext)? plusTwo;
   final inProgressStatus;
+  final timesPostponed;
 
   const HabitTile({
     super.key,
@@ -23,6 +24,7 @@ class HabitTile extends StatelessWidget {
     required this.plusOne,
     required this.plusTwo,
     required this.inProgressStatus,
+    required this.timesPostponed,
   });
 
   @override
@@ -30,6 +32,8 @@ class HabitTile extends StatelessWidget {
     Color changeTileColor() {
       if (inProgressStatus) {
         return Colors.green.shade200;
+      } else if (timesPostponed != null && timesPostponed > 0){
+        return Colors.red.shade200;
       }
       return Colors.grey.shade100;
     }
