@@ -200,20 +200,48 @@ class _NewHomePageState extends State<NewHomePage> {
     );
   }
 
-  void rescheduleOne(index){
-    DateTime oldDateTime = db.todaysHabitList[index]['taskDateTime'];
+  void rescheduleOne(index) {
+    DateTime oldDate = db.todaysHabitList[index]['taskDateTime'];
+    DateTime newDate = oldDate.add(Duration(days: 1));
+    rescheduleNotification(index, newDate, db.todaysHabitList[index]['taskName']);
     setState(() {
-      db.todaysHabitList[index]['taskDateTime'] = oldDateTime.add(Duration(days: 1));
+      db.todaysHabitList[index]['taskDateTime'] = newDate;
     });
     db.updateDatabase(_sheetDateTime);
   }
 
   void rescheduleTwo(index){
-    DateTime oldDateTime = db.todaysHabitList[index]['taskDateTime'];
+    DateTime oldDate = db.todaysHabitList[index]['taskDateTime'];
+    DateTime newDate = oldDate.add(Duration(days: 2));
+    rescheduleNotification(index, newDate, db.todaysHabitList[index]['taskName']);
     setState(() {
-      db.todaysHabitList[index]['taskDateTime'] = oldDateTime.add(Duration(days: 2));
+      db.todaysHabitList[index]['taskDateTime'] = newDate;
     });
     db.updateDatabase(_sheetDateTime);
+  }
+
+  void rescheduleNotification(index, DateTime newDate, String taskName) async {
+    if (db.todaysHabitList[index]['notification_id'] == null) {
+      int notification_id = math.Random().nextInt(1000000000);
+      db.todaysHabitList[index]['notification_id'] = notification_id;
+      if (newDate.isAfter(DateTime.now())) {
+        await service.showScheduledNotification(
+            id: notification_id,
+            title: 'Tasks',
+            body: taskName,
+            dateTime: newDate);
+      }
+    } else {
+      await service
+          .deleteNotification(db.todaysHabitList[index]['notification_id']);
+      if (newDate.isAfter(DateTime.now())) {
+        await service.showScheduledNotification(
+            id: db.todaysHabitList[index]['notification_id'],
+            title: 'Tasks',
+            body: taskName,
+            dateTime: newDate);
+      }
+    }
   }
 
   // save existing habit with a new name
@@ -225,27 +253,7 @@ class _NewHomePageState extends State<NewHomePage> {
     } else {
       newDate = db.todaysHabitList[index]['taskDateTime'];
     }
-    if (db.todaysHabitList[index]['notification_id'] == null) {
-      int notification_id = math.Random().nextInt(1000000000);
-      db.todaysHabitList[index]['notification_id'] = notification_id;
-      if (newDate.isAfter(DateTime.now())) {
-        await service.showScheduledNotification(
-            id: notification_id,
-            title: 'Tasks',
-            body: _newHabitNameController.text,
-            dateTime: newDate);
-      }
-    } else {
-      await service
-          .deleteNotification(db.todaysHabitList[index]['notification_id']);
-      if (newDate.isAfter(DateTime.now())) {
-        await service.showScheduledNotification(
-            id: db.todaysHabitList[index]['notification_id'],
-            title: 'Tasks',
-            body: _newHabitNameController.text,
-            dateTime: newDate);
-      }
-    }
+    rescheduleNotification(index, newDate, _newHabitNameController.text);
     dateChangedFlag = false;
     setState(() {
       db.todaysHabitList[index]['taskName'] = _newHabitNameController.text;
