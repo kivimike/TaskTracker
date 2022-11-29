@@ -76,7 +76,7 @@ class NewHabitDatabase {
   }
 
   void addYesterdaysTask() {
-    if (_myBox.get('LastUpdate') == convertDateTimeToString(DateTime.now())) {
+    if (_myBox.get('LastUpdate') != convertDateTimeToString(DateTime.now())) {
       List yesterdayList = _myBox.get(convertDateTimeToString(
               DateTime.now().subtract(Duration(days: 1)))) ??
           [];
@@ -108,6 +108,7 @@ class NewHabitDatabase {
 
   // load data if it already exists
   void loadData(datetime) {
+    addYesterdaysTask();
     // if it's a new day, get habit list from database
     if (_myBox.get(convertDateTimeToString(datetime)) == null) {
       // todaysHabitList = _myBox.get("CURRENT_HABIT_LIST");

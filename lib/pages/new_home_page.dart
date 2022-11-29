@@ -45,7 +45,7 @@ class _NewHomePageState extends State<NewHomePage> {
 
     // there already exists data, this is not the first time
     else {
-      db.addYesterdaysTask();
+      // db.addYesterdaysTask();
       db.loadData(_datetime);
     }
 
