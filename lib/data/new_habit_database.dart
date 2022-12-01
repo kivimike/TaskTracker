@@ -46,7 +46,7 @@ class NewHabitDatabase {
     for (int i = 0; i < todaysHabitList.length; ++i) {
       if (todaysHabitList[i]['taskCompleted'] == true) {
         if (todaysHabitList[i]['timesPostponed'] != null){
-          doneCounter += 1 * (1 + todaysHabitList[i]['timesPostponed'] * 0.5);
+          doneCounter += 1 * (1 + todaysHabitList[i]['timesPostponed'] * 0.3);
         } else {
           doneCounter += 1;
         }
@@ -56,7 +56,7 @@ class NewHabitDatabase {
     double length = 0;
     for (int i = 0; i < todaysHabitList.length; ++i){
       if (todaysHabitList[i]['timesPostponed'] != null){
-        double multiplier = todaysHabitList[i]['timesPostponed'] * 0.5;
+        double multiplier = todaysHabitList[i]['timesPostponed'] * 0.3;
         length += 1 * (1 + multiplier);
       } else {
         length += 1;
@@ -223,7 +223,7 @@ class NewHabitDatabase {
     for (int i = 0; i < todaysHabitList.length; i++) {
       if (todaysHabitList[i]['taskCompleted'] == true) {
         if (todaysHabitList[i]['timesPostponed'] != null) {
-          double multiplier = todaysHabitList[i]['timesPostponed'] * 0.5;
+          double multiplier = todaysHabitList[i]['timesPostponed'] * 0.3;
           countCompleted += 1 * (1 + multiplier);
         } else {
           countCompleted += 1;
@@ -234,7 +234,7 @@ class NewHabitDatabase {
     double length = 0;
     for (int i = 0; i < todaysHabitList.length; ++i){
       if (todaysHabitList[i]['timesPostponed'] != null){
-        double multiplier = todaysHabitList[i]['timesPostponed'] * 0.5;
+        double multiplier = todaysHabitList[i]['timesPostponed'] * 0.3;
         length += 1 * (1 + multiplier);
       } else {
         length += 1;
