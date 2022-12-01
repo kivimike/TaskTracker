@@ -45,10 +45,24 @@ class NewHabitDatabase {
     double doneCounter = 0;
     for (int i = 0; i < todaysHabitList.length; ++i) {
       if (todaysHabitList[i]['taskCompleted'] == true) {
-        doneCounter += 1;
+        if (todaysHabitList[i]['timesPostponed'] != null){
+          doneCounter += 1 * (1 + todaysHabitList[i]['timesPostponed'] * 0.5);
+        } else {
+          doneCounter += 1;
+        }
       }
     }
-    int length = todaysHabitList.length;
+
+    double length = 0;
+    for (int i = 0; i < todaysHabitList.length; ++i){
+      if (todaysHabitList[i]['timesPostponed'] != null){
+        double multiplier = todaysHabitList[i]['timesPostponed'] * 0.5;
+        length += 1 * (1 + multiplier);
+      } else {
+        length += 1;
+      }
+    }
+
     if (todaysHabitList.length < 1) {
       length = 1;
     }
@@ -205,16 +219,31 @@ class NewHabitDatabase {
   }
 
   void calculateHabitPercentages(date) {
-    int countCompleted = 0;
+    double countCompleted = 0;
     for (int i = 0; i < todaysHabitList.length; i++) {
       if (todaysHabitList[i]['taskCompleted'] == true) {
-        countCompleted++;
+        if (todaysHabitList[i]['timesPostponed'] != null) {
+          double multiplier = todaysHabitList[i]['timesPostponed'] * 0.5;
+          countCompleted += 1 * (1 + multiplier);
+        } else {
+          countCompleted += 1;
+        }
+      }
+    }
+
+    double length = 0;
+    for (int i = 0; i < todaysHabitList.length; ++i){
+      if (todaysHabitList[i]['timesPostponed'] != null){
+        double multiplier = todaysHabitList[i]['timesPostponed'] * 0.5;
+        length += 1 * (1 + multiplier);
+      } else {
+        length += 1;
       }
     }
 
     String percent = todaysHabitList.isEmpty
         ? '0.0'
-        : (countCompleted / todaysHabitList.length).toStringAsFixed(1);
+        : (countCompleted / length).toStringAsFixed(1);
 
     // key: "PERCENTAGE_SUMMARY_yyyymmdd"
     // value: string of 1dp number between 0.0-1.0 inclusive
