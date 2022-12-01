@@ -36,6 +36,7 @@ class _SingleDatetimePickerState extends State<SingleDatetimePicker> {
       onClose: () {
         //print('Picker closed');
       },
+      use24hFormat: true,
       iconColor: Colors.black,
       minDateTime: DateTime(1900),
       maxDateTime: DateTime(2100),
