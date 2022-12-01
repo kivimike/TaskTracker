@@ -1,8 +1,34 @@
+import 'dart:io';
+import 'package:hive/hive.dart';
+
 import 'package:habit_tracker/datetime/date_time.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 // reference our box
-final _myBox = Hive.box("Habit_Database");
+var _myBox = Hive.box("Habit_Database");
+
+Future<void> backupHiveBox<T>(String backupPath) async {
+
+  final boxPath = _myBox.path;
+
+
+  try {
+    File(boxPath!).copy(backupPath);
+  } finally {
+
+  }
+}
+
+Future<void> restoreHiveBox<T>(String backupPath) async {
+  final boxPath = _myBox.path;
+  await _myBox.close();
+  try {
+    File(backupPath).copy(boxPath!);
+  } finally {
+    await Hive.openBox('Habit_Database');
+    _myBox = Hive.box('Habit_Database');
+  }
+}
 
 class NewHabitDatabase {
   List todaysHabitList = [];
@@ -109,6 +135,7 @@ class NewHabitDatabase {
   // load data if it already exists
   void loadData(datetime) {
     addYesterdaysTask();
+    print(_myBox.path);
     // if it's a new day, get habit list from database
     if (_myBox.get(convertDateTimeToString(datetime)) == null) {
       // todaysHabitList = _myBox.get("CURRENT_HABIT_LIST");
@@ -230,8 +257,8 @@ class NewHabitDatabase {
     //DateTime startDate = createDateTimeObject(_myBox.get("START_DATE"));
     DateTime now = DateTime.now();
     DateTime referenceDate = DateTime(now.year, now.month, 1);
-    DateTime startDate = referenceDate.subtract(Duration(days: 21));
-    DateTime endDate = referenceDate.add(Duration(days: 36));
+    DateTime startDate = referenceDate.subtract(Duration(days: 40));
+    DateTime endDate = referenceDate.add(Duration(days: 40));
     // count the number of days to load
     int daysInBetween = endDate.difference(startDate).inDays;
 
