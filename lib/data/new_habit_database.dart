@@ -149,7 +149,6 @@ class NewHabitDatabase {
   // load data if it already exists
   void loadData(datetime) {
     addYesterdaysTask();
-    sortList();
     // if it's a new day, get habit list from database
     if (_myBox.get(convertDateTimeToString(datetime)) == null) {
       // todaysHabitList = _myBox.get("CURRENT_HABIT_LIST");
@@ -163,6 +162,7 @@ class NewHabitDatabase {
     else {
       todaysHabitList = _myBox.get(convertDateTimeToString(datetime));
     }
+    sortList();
     getProgress();
   }
 
