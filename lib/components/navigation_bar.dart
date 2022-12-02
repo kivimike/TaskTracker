@@ -46,6 +46,14 @@ class SideNavigationBar extends StatelessWidget {
             onTap:() => Navigator.pushNamed(context, route.globalAnalysis),
           ),
           ListTile(
+            leading: Icon(Icons.list_alt_outlined),
+            title: Text(
+              'Pool',
+              style: TextStyle(letterSpacing: 1.2, color: Colors.grey.shade600),
+            ),
+            onTap: () => Navigator.pushNamed(context, route.pool),
+          ),
+          ListTile(
             leading: Icon(Icons.settings),
             title: Text(
               'Settings',

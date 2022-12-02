@@ -32,6 +32,7 @@ Future<void> restoreHiveBox<T>(String backupPath) async {
 
 class NewHabitDatabase {
   List todaysHabitList = [];
+  List pool = [];
   Map<DateTime, int> heatMapDataSet = {};
   double progress = 0;
 
@@ -146,6 +147,18 @@ class NewHabitDatabase {
     }
   }
 
+  void loadPoolData(){
+    if (_myBox.get('POOL') == null){
+      pool = [];
+    } else {
+      pool = _myBox.get('POOL');
+    }
+  }
+
+  void updatePoolDatabase(){
+    _myBox.put('POOL', pool);
+  }
+  
   // load data if it already exists
   void loadData(datetime) {
     addYesterdaysTask();

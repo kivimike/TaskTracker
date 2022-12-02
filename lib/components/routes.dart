@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:habit_tracker/pages/pool.dart';
 
 import 'package:habit_tracker/pages/settings.dart';
 import 'package:habit_tracker/pages/day_analysis.dart';
@@ -8,6 +9,7 @@ import 'package:habit_tracker/pages/new_home_page.dart';
 const String homePage = 'home';
 const String dayAnalysis = 'dayAnalysis';
 const String globalAnalysis = 'globalAnalysis';
+const String pool = 'pool';
 const String settings = 'settings';
 
 Route<dynamic> controller(RouteSettings routeSettings){
@@ -18,6 +20,8 @@ Route<dynamic> controller(RouteSettings routeSettings){
       return MaterialPageRoute(builder: (context)=>DayAnalysis());
     case globalAnalysis:
       return MaterialPageRoute(builder: (context)=>GlobalAnalysis());
+    case pool:
+      return MaterialPageRoute(builder: (context) => Pool());
     case settings:
       return MaterialPageRoute(builder: (context)=>Settings());
     default:
