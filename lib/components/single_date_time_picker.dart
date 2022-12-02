@@ -1,4 +1,5 @@
 import 'package:bottom_picker/bottom_picker.dart';
+import 'package:bottom_picker/resources/arrays.dart';
 import 'package:flutter/material.dart';
 
 class SingleDatetimePicker extends StatefulWidget {
@@ -36,6 +37,7 @@ class _SingleDatetimePickerState extends State<SingleDatetimePicker> {
       onClose: () {
         //print('Picker closed');
       },
+      pickerTextStyle: TextStyle(fontSize: 18, color: Colors.black87, letterSpacing: 2.0),
       use24hFormat: true,
       iconColor: Colors.black,
       minDateTime: DateTime(1900),
