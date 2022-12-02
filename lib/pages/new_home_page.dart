@@ -338,6 +338,32 @@ class _NewHomePageState extends State<NewHomePage> {
                     letterSpacing: 1.5,
                     fontWeight: FontWeight.w400,
                     fontSize: 28))),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text('${DateTime.now().day.toString().padLeft(2,'0')}.${DateTime.now().month.toString().padLeft(2,'0')}',
+                style: TextStyle(
+                  color: Colors.grey.shade200,
+                  fontSize: 16
+                ),),
+                Container(
+                  color: Colors.grey.shade200,
+                  height: 1,
+                  width: 36,
+                ),
+                Text('${DateTime.now().year}',
+                  style: TextStyle(
+                      color: Colors.grey.shade200,
+                      fontSize: 16,
+                    letterSpacing: 1.2
+                  ),),
+              ],
+            ),
+          )
+        ],
       ),
       drawer: SideNavigationBar(),
       backgroundColor: Colors.grey[300],
