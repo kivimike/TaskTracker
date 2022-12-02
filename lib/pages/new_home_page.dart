@@ -128,6 +128,7 @@ class _NewHomePageState extends State<NewHomePage> {
         'inProgressStatus': false,
         'notification_id': notification_id,
       });
+      db.updateDatabase(_sheetDateTime);
     });
     if (newDate.isAfter(DateTime.now()) == true) {
       await service.showScheduledNotification(
@@ -142,7 +143,6 @@ class _NewHomePageState extends State<NewHomePage> {
     _newHabitDescriptionController.clear();
     _datetime = DateTime.now();
     Navigator.of(context).pop();
-    db.updateDatabase(_sheetDateTime);
   }
 
   // cancel new habit
@@ -261,12 +261,12 @@ class _NewHomePageState extends State<NewHomePage> {
       db.todaysHabitList[index]['taskDescription'] =
           _newHabitDescriptionController.text;
       db.todaysHabitList[index]['taskDateTime'] = newDate;
+      db.updateDatabase(_sheetDateTime);
     });
     _newHabitNameController.clear();
     _newHabitDescriptionController.clear();
     _datetime = DateTime.now();
     Navigator.pop(context);
-    db.updateDatabase(_sheetDateTime);
   }
 
   // delete habit
