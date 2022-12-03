@@ -196,6 +196,7 @@ class _NewHomePageState extends State<NewHomePage> {
           dateTime: db.todaysHabitList[index]['taskDateTime'],
           duration: db.todaysHabitList[index]['timeTaken'] ?? 0,
           onCancel: cancelDialogBox,
+          poolMode: false,
         );
       },
     );

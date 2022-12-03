@@ -5,6 +5,7 @@ import 'package:habit_tracker/components/my_alert_box.dart';
 import 'package:habit_tracker/components/my_fab.dart';
 import 'package:habit_tracker/components/navigation_bar.dart';
 import 'package:habit_tracker/components/pool_habit_tile.dart';
+import 'package:habit_tracker/components/task_view.dart';
 import 'package:habit_tracker/data/new_habit_database.dart';
 import 'package:habit_tracker/notifications/local_notification_service.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -80,7 +81,19 @@ class _PoolState extends State<Pool> {
 
 
   void readHabit(index){
-
+    showDialog(
+      context: context,
+      builder: (context) {
+        return TaskView(
+          taskName: db.pool[index]['taskName'],
+          taskContent: db.pool[index]['taskDescription'],
+          dateTime: db.pool[index]['taskDateTime']?? DateTime.now(),
+          duration: db.pool[index]['timeTaken'] ?? 0,
+          onCancel: cancelDialogBox,
+          poolMode: true,
+        );
+      },
+    );
   }
 
   void writeTaskBeginDateTime(index) {

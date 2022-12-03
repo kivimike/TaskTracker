@@ -7,19 +7,102 @@ class TaskView extends StatelessWidget {
   final DateTime dateTime;
   final duration;
   final VoidCallback onCancel;
+  final bool poolMode;
 
-  const TaskView(
-      {super.key,
-      required this.taskName,
-      required this.taskContent,
-      required this.dateTime,
-      required this.duration,
-      required this.onCancel});
+  const TaskView({super.key,
+    required this.taskName,
+    required this.taskContent,
+    required this.dateTime,
+    required this.duration,
+    required this.onCancel,
+    required this.poolMode});
 
   @override
   Widget build(BuildContext context) {
     String hours = (duration ~/ 60).toString().padLeft(2, '0');
     String minutes = (duration % 60).toString().padLeft(2, '0');
+
+    List<Widget> taskViewHeader() {
+      List <Widget> headerList = [
+        Expanded(
+          child: SingleChildScrollView(
+            child: SelectableText(
+              taskName,
+              minLines: 1,
+              maxLines: 5,
+              style: const TextStyle(
+                  color: Colors.black87,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 24,
+                  letterSpacing: 2),
+            ),
+          ),
+        ),
+      ];
+      if (poolMode) {
+        return headerList;
+      } else {
+        headerList.add(
+            Material(
+              color: Colors.green,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Container(
+                margin: EdgeInsets.all(4),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SelectableText(
+                      '${dateTime.day.toString().padLeft(
+                          2, '0')}.${dateTime.month.toString()
+                          .padLeft(2, '0')}',
+                      style: TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                          letterSpacing: 2,
+                          color: Colors.grey.shade200),
+                    ),
+                    Row(
+                      children: [
+                        Container(
+                          height: 1,
+                          width: 10,
+                          color: Colors.grey.shade200,
+                        ),
+                        SelectableText(
+                          '${dateTime.year}',
+                          style: TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w400,
+                              letterSpacing: 2,
+                              color: Colors.grey.shade200),
+                        ),
+                        Container(
+                          height: 1,
+                          width: 10,
+                          color: Colors.grey.shade200,
+                        ),
+                      ],
+                    ),
+                    SelectableText(
+                      '${dateTime.hour.toString().padLeft(
+                          2, '0')}:${dateTime.minute.toString()
+                          .padLeft(2, '0')}',
+                      style: TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                          letterSpacing: 2,
+                          color: Colors.grey.shade200),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+        );
+      }
+      return headerList;
+    }
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -32,7 +115,10 @@ class TaskView extends StatelessWidget {
           elevation: 1,
           color: Colors.grey[100],
           child: Container(
-            width: MediaQuery.of(context).size.width * 0.8,
+            width: MediaQuery
+                .of(context)
+                .size
+                .width * 0.8,
             margin: EdgeInsets.all(30),
             child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -45,81 +131,17 @@ class TaskView extends StatelessWidget {
                     child: Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Expanded(
-                            child: SingleChildScrollView(
-                              child: SelectableText(
-                                taskName,
-                                minLines: 1,
-                                maxLines: 5,
-                                style: const TextStyle(
-                                    color: Colors.black87,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 24,
-                                    letterSpacing: 2),
-                              ),
-                            ),
-                          ),
-                          Material(
-                            color: Colors.green,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            child: Container(
-                              margin: EdgeInsets.all(4),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  SelectableText(
-                                    '${dateTime.day.toString().padLeft(2, '0')}.${dateTime.month.toString().padLeft(2, '0')}',
-                                    style: TextStyle(
-                                        fontSize: 24,
-                                        fontWeight: FontWeight.bold,
-                                        letterSpacing: 2,
-                                        color: Colors.grey.shade200),
-                                  ),
-                                  Row(
-                                    children: [
-                                      Container(
-                                        height: 1,
-                                        width: 10,
-                                        color: Colors.grey.shade200,
-                                      ),
-                                      SelectableText(
-                                        '${dateTime.year}',
-                                        style: TextStyle(
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.w400,
-                                            letterSpacing: 2,
-                                            color: Colors.grey.shade200),
-                                      ),
-                                      Container(
-                                        height: 1,
-                                        width: 10,
-                                        color: Colors.grey.shade200,
-                                      ),
-                                    ],
-                                  ),
-                                  SelectableText(
-                                    '${dateTime.hour.toString().padLeft(2, '0')}:${dateTime.minute.toString().padLeft(2, '0')}',
-                                    style: TextStyle(
-                                        fontSize: 24,
-                                        fontWeight: FontWeight.bold,
-                                        letterSpacing: 2,
-                                        color: Colors.grey.shade200),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          )
-                        ]),
+                        children: taskViewHeader()),
                   ),
                   Container(
                     height: 5,
                   ),
                   Container(
                     height: 1,
-                    width: MediaQuery.of(context).size.width * 0.8,
+                    width: MediaQuery
+                        .of(context)
+                        .size
+                        .width * 0.8,
                     color: Colors.black87,
                   ),
                   Container(
