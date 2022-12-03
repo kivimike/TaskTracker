@@ -53,14 +53,17 @@ class _SingleDatetimePickerState extends State<SingleDatetimePicker> {
   @override
   Widget build(BuildContext context) {
     return TextField(
-      controller: _controller
-        ..text =
-            '${widget.datetime.day.toString().padLeft(2,'0')}/${widget.datetime.month.toString().padLeft(2,'0')}/${widget.datetime.year} ${widget.datetime.hour.toString().padLeft(2,'0')}:${widget.datetime.minute.toString().padLeft(2,'0')}',
+      controller: _controller,
+        // ..text =
+        //     'hh${widget.datetime.day.toString().padLeft(2,'0')}/${widget.datetime.month.toString().padLeft(2,'0')}/${widget.datetime.year} ${widget.datetime.hour.toString().padLeft(2,'0')}:${widget.datetime.minute.toString().padLeft(2,'0')}',
       textAlign: TextAlign.end,
       readOnly: true,
       onTap: showDateTimePicker,
       style: TextStyle(color: Colors.grey.shade600, letterSpacing: 1.1, fontSize: 14),
       decoration: InputDecoration(
+        //contentPadding: EdgeInsets.all(0),
+        hintText: '${widget.datetime.day.toString().padLeft(2,'0')}/${widget.datetime.month.toString().padLeft(2,'0')}/${widget.datetime.year} ${widget.datetime.hour.toString().padLeft(2,'0')}:${widget.datetime.minute.toString().padLeft(2,'0')}',
+        hintStyle: TextStyle(color: Colors.grey.shade600, letterSpacing: 1.1, fontSize: 14),
         enabledBorder: OutlineInputBorder(
             borderSide: BorderSide(color: Colors.grey.shade200)),
         focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.grey.shade200)),
