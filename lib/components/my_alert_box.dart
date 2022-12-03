@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:habit_tracker/components/date_time_picker.dart';
 import 'package:habit_tracker/components/single_date_time_picker.dart';
+import 'package:toggle_switch/toggle_switch.dart';
 
 class MyAlertBox extends StatelessWidget {
   final controllerName;
@@ -11,6 +12,8 @@ class MyAlertBox extends StatelessWidget {
   final Function(DateTime?)? getDate;
   final VoidCallback onSave;
   final VoidCallback onCancel;
+  int poolToggleMode;
+  final Function(int?) getMode;
 
 
   MyAlertBox({
@@ -23,6 +26,8 @@ class MyAlertBox extends StatelessWidget {
     required this.getDate,
     required this.onSave,
     required this.onCancel,
+    required this.poolToggleMode,
+    required this.getMode,
   });
 
   @override
@@ -81,6 +86,25 @@ class MyAlertBox extends StatelessWidget {
           ),
         ),
        Container(height: 6,),
+        Row(
+          children: [ Spacer(),
+            ToggleSwitch(
+              minWidth: 78,
+              initialLabelIndex: poolToggleMode,
+              cornerRadius: 12.0,
+              activeFgColor: Colors.grey.shade600,
+              inactiveBgColor: Colors.grey.shade400,
+              inactiveFgColor: Colors.grey.shade600,
+              totalSwitches: 2,
+              fontSize: 12,
+              labels: ['Pool', 'Schedule'],
+              activeBgColors: [[Colors.green.shade200],[Colors.green.shade200]],
+              onToggle: (index) {
+                getMode(index);
+              },
+            ),
+          ],
+        ),
        // MyDateTimePicker(datetime: dateTime, getDate: getTime),
         SingleDatetimePicker(datetime: dateTime, getDate: getDate),
       ]),
@@ -89,30 +113,32 @@ class MyAlertBox extends StatelessWidget {
           padding: const EdgeInsets.only(
             bottom: 8.0,
           ),
-          child: MaterialButton(
-            elevation: 1,
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+          child: IconButton(
+            // elevation: 1,
+            // shape:
+            //     RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
             onPressed: onSave,
-            child: Text(
-              "Save",
-              style: TextStyle(color: Colors.grey.shade200),
-            ),
-            color: Colors.green,
+            // child: Text(
+            //   "Save",
+            //   style: TextStyle(color: Colors.grey.shade200),
+            // ),
+            icon: Icon(Icons.save_outlined),
+            color: Colors.green.shade400,
           ),
         ),
         Padding(
           padding: const EdgeInsets.only(right: 8.0, left: 2, bottom: 8),
-          child: MaterialButton(
-            elevation: 1,
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+          child: IconButton(
+            // elevation: 1,
+            // shape:
+            //     RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
             onPressed: onCancel,
-            child: Text(
-              "Cancel",
-              style: TextStyle(color: Colors.grey.shade200),
-            ),
-            color: Colors.green,
+            icon: Icon(Icons.cancel_outlined),
+            // child: Text(
+            //   "Cancel",
+            //   style: TextStyle(color: Colors.grey.shade200),
+            // ),
+            color: Colors.red.shade400,
           ),
         ),
       ],

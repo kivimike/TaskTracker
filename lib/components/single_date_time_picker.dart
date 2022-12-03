@@ -56,10 +56,10 @@ class _SingleDatetimePickerState extends State<SingleDatetimePicker> {
       controller: _controller
         ..text =
             '${widget.datetime.day.toString().padLeft(2,'0')}/${widget.datetime.month.toString().padLeft(2,'0')}/${widget.datetime.year} ${widget.datetime.hour.toString().padLeft(2,'0')}:${widget.datetime.minute.toString().padLeft(2,'0')}',
-      textAlign: TextAlign.center,
+      textAlign: TextAlign.end,
       readOnly: true,
       onTap: showDateTimePicker,
-      style: TextStyle(color: Colors.grey.shade600, letterSpacing: 1.5),
+      style: TextStyle(color: Colors.grey.shade600, letterSpacing: 1.1, fontSize: 14),
       decoration: InputDecoration(
         enabledBorder: OutlineInputBorder(
             borderSide: BorderSide(color: Colors.grey.shade200)),

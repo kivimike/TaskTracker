@@ -48,6 +48,7 @@ dependencies:
   bottom_picker: ^2.0.1
   file_picker: ^5.2.3
   permission_handler: ^10.2.0
+  toggle_switch: ^2.0.1
 
 dev_dependencies:
   flutter_test:

@@ -77,6 +77,7 @@ class _NewHomePageState extends State<NewHomePage> {
   DateTime _datetime = DateTime.now();
   DateTime _sheetDateTime = DateTime.now();
   bool dateChangedFlag = false;
+  int mode = 1;
 
   DateTime updateSheetDateTime() {
     DateTime now = DateTime.now();
@@ -97,15 +98,48 @@ class _NewHomePageState extends State<NewHomePage> {
           taskDescription: '',
           dateTime: updateSheetDateTime(),
           getDate: getDate,
-          onSave: saveNewHabit,
+          onSave: globalSave, //saveNewHabitToCalendar
           onCancel: cancelDialogBox,
+          poolToggleMode: mode,
+          getMode: getMode,
         );
       },
     );
   }
 
+  void getMode(index){
+    mode = index;
+  }
+
+  void globalSave() async {
+    if (mode == 1){
+      saveNewHabitToCalendar();
+    } else {
+      saveNewHabitToPool();
+    }
+    mode = 1;
+  }
+
+  void saveNewHabitToPool() async {
+
+    // add new habit to todays habit list
+      db.pool.add({
+        'taskName': _newHabitNameController.text,
+        'taskCompleted': false,
+        'taskDescription': _newHabitDescriptionController.text,
+        'inProgressStatus': false,
+      });
+      db.updatePoolDatabase();
+
+    // clear textfield
+    _newHabitNameController.clear();
+    _newHabitDescriptionController.clear();
+    _datetime = DateTime.now();
+    Navigator.of(context).pop();
+  }
+
   // save new habit
-  void saveNewHabit() async {
+  void saveNewHabitToCalendar() async {
     updateSheetDateTime();
 
     late DateTime newDate;
@@ -150,6 +184,7 @@ class _NewHomePageState extends State<NewHomePage> {
     // clear textfield
     _newHabitNameController.clear();
     _newHabitDescriptionController.clear();
+    mode = 1;
 
     // pop dialog box
     Navigator.of(context).pop();
@@ -167,8 +202,10 @@ class _NewHomePageState extends State<NewHomePage> {
           taskDescription: db.todaysHabitList[index]['taskDescription'],
           dateTime: db.todaysHabitList[index]['taskDateTime'],
           getDate: getDate,
-          onSave: () => saveExistingHabit(index),
+          onSave: () => globalEdit(index),
           onCancel: cancelDialogBox,
+          poolToggleMode: mode,
+          getMode: getMode,
         );
       },
     );
@@ -244,6 +281,34 @@ class _NewHomePageState extends State<NewHomePage> {
             dateTime: newDate);
       }
     }
+  }
+
+  void globalEdit(index){
+    if (mode == 1){
+      saveExistingHabit(index);
+    } else {
+      sendTaskToPool(index);
+    }
+    mode = 1;
+  }
+
+  void sendTaskToPool(index){
+    db.loadPoolData();
+    db.pool.add(
+      {
+        'taskName': _newHabitNameController.text,
+        'taskCompleted': false,
+        'taskDescription': _newHabitDescriptionController.text,
+        'inProgressStatus': false,
+        'workPeriods': db.todaysHabitList[index]['workPeriods'],
+        'timeTaken': db.todaysHabitList[index]['timeTaken'],
+      }
+    );
+    db.updatePoolDatabase();
+    _newHabitNameController.clear();
+    _newHabitDescriptionController.clear();
+    _datetime = DateTime.now();
+    Navigator.of(context).pop();
   }
 
   // save existing habit with a new name

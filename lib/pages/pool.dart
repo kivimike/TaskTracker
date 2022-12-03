@@ -1,5 +1,5 @@
 import 'dart:io';
-
+import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:habit_tracker/components/my_alert_box.dart';
 import 'package:habit_tracker/components/my_fab.dart';
@@ -25,6 +25,7 @@ class _PoolState extends State<Pool> {
   DateTime _datetime = DateTime.now();
   final _newHabitNameController = TextEditingController();
   final _newHabitDescriptionController = TextEditingController();
+  int mode = 0;
   //bool dateChangedFlag = false;
 
   @override
@@ -32,6 +33,8 @@ class _PoolState extends State<Pool> {
 
     db.loadPoolData();
     db.updatePoolDatabase();
+    service = LocalNotificationService();
+    service.intialize();
 
     super.initState();
   }
@@ -52,14 +55,57 @@ class _PoolState extends State<Pool> {
           taskDescription: '',
           dateTime: _datetime,
           getDate: getDate,
-          onSave: saveNewHabit,
+          onSave: globalSave,
           onCancel: cancelDialogBox,
+          poolToggleMode: mode,
+          getMode: getMode,
         );
       },
     );
   }
 
-  void saveNewHabit() async {
+  void getMode(index){
+    mode = index;
+  }
+
+  void globalSave(){
+    if (mode == 0){
+      saveNewHabitToPool();
+    } else {
+      saveNewHabitToCalendar();
+    }
+    mode = 0;
+  }
+
+  void saveNewHabitToCalendar() async {
+    int notification_id = math.Random().nextInt(1000000000);
+    db.loadData(_datetime);
+    // add new habit to todays habit list
+      db.todaysHabitList.add({
+        'taskName': _newHabitNameController.text,
+        'taskCompleted': false,
+        'taskDescription': _newHabitDescriptionController.text,
+        'taskDateTime': _datetime,
+        'inProgressStatus': false,
+        'notification_id': notification_id,
+      });
+      db.updateDatabase(_datetime);
+    if (_datetime.isAfter(DateTime.now()) == true) {
+      await service.showScheduledNotification(
+          id: notification_id,
+          title: 'Tasks',
+          body: _newHabitNameController.text,
+          dateTime: _datetime.add(Duration(seconds: 10)));
+    }
+
+    // clear textfield
+    _newHabitNameController.clear();
+    _newHabitDescriptionController.clear();
+    _datetime = DateTime.now();
+    Navigator.of(context).pop();
+  }
+
+  void saveNewHabitToPool() async {
 
     // add new habit to todays habit list
     setState(() {
@@ -178,11 +224,51 @@ class _PoolState extends State<Pool> {
           taskDescription: db.pool[index]['taskDescription'],
           dateTime: _datetime,
           getDate: getDate,
-          onSave: () => saveExistingHabit(index),
+          onSave: () => globalEdit(index),
           onCancel: cancelDialogBox,
+          poolToggleMode: mode,
+          getMode: getMode,
         );
       },
     );
+  }
+
+  void globalEdit(index){
+    if (mode == 0){
+      saveExistingHabit(index);
+    } else {
+      sendTaskToCalendar(index);
+    }
+    mode = 0;
+  }
+
+  void sendTaskToCalendar(index) async {
+    int notification_id = math.Random().nextInt(1000000000);
+    db.loadData(_datetime);
+    db.todaysHabitList.add(
+        {
+          'taskName': _newHabitNameController.text,
+          'taskCompleted': false,
+          'taskDescription': _newHabitDescriptionController.text,
+          'taskDateTime': _datetime,
+          'inProgressStatus': false,
+          'workPeriods': db.pool[index]['workPeriods'],
+          'timeTaken': db.pool[index]['timeTaken'],
+          'notification_id': notification_id,
+        }
+    );
+    if (_datetime.isAfter(DateTime.now()) == true) {
+      await service.showScheduledNotification(
+          id: notification_id,
+          title: 'Tasks',
+          body: _newHabitNameController.text,
+          dateTime: _datetime.add(Duration(seconds: 10)));
+    }
+    db.updateDatabase(_datetime);
+    _newHabitNameController.clear();
+    _newHabitDescriptionController.clear();
+    _datetime = DateTime.now();
+    Navigator.pop(context);
   }
 
   void saveExistingHabit(int index) async {
@@ -213,7 +299,7 @@ class _PoolState extends State<Pool> {
 
     _newHabitNameController.clear();
     _newHabitDescriptionController.clear();
-
+    mode = 0;
     // pop dialog box
     Navigator.of(context).pop();
   }
