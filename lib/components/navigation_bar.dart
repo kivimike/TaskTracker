@@ -26,7 +26,7 @@ class SideNavigationBar extends StatelessWidget {
               'Home',
               style: TextStyle(letterSpacing: 1.2, color: Colors.grey.shade600),
             ),
-            onTap:() => Navigator.pushNamed(context, route.homePage),
+            onTap:() => Navigator.pushReplacementNamed(context, route.homePage),
           ),
           ListTile(
             leading: Transform.rotate(
@@ -35,7 +35,7 @@ class SideNavigationBar extends StatelessWidget {
               'Day Analysis',
               style: TextStyle(letterSpacing: 1.2, color: Colors.grey.shade600),
             ),
-            onTap:() => Navigator.pushNamed(context, route.dayAnalysis),
+            onTap:() => Navigator.pushReplacementNamed(context, route.dayAnalysis),
           ),
           ListTile(
             leading: Icon(Icons.show_chart),
@@ -43,7 +43,7 @@ class SideNavigationBar extends StatelessWidget {
               'Global Analysis',
               style: TextStyle(letterSpacing: 1.2, color: Colors.grey.shade600),
             ),
-            onTap:() => Navigator.pushNamed(context, route.globalAnalysis),
+            onTap:() => Navigator.pushReplacementNamed(context, route.globalAnalysis),
           ),
           ListTile(
             leading: Icon(Icons.list_alt_outlined),
@@ -51,7 +51,7 @@ class SideNavigationBar extends StatelessWidget {
               'Pool',
               style: TextStyle(letterSpacing: 1.2, color: Colors.grey.shade600),
             ),
-            onTap: () => Navigator.pushNamed(context, route.pool),
+            onTap: () => Navigator.pushReplacementNamed(context, route.pool),
           ),
           ListTile(
             leading: Icon(Icons.settings),
@@ -59,7 +59,7 @@ class SideNavigationBar extends StatelessWidget {
               'Settings',
               style: TextStyle(letterSpacing: 1.2, color: Colors.grey.shade600),
             ),
-            onTap: () => Navigator.pushNamed(context, route.settings),
+            onTap: () => Navigator.pushReplacementNamed(context, route.settings),
           ),
         ],
       ),
