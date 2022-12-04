@@ -275,10 +275,11 @@ class NewHabitDatabase {
   List getDaysResult() {
     List result = [];
     DateTime startDate = createDateTimeObject(_myBox.get("START_DATE"));
+    print(startDate);
     int daysInBetween = DateTime.now().difference(startDate).inDays;
     for (int i = 0; i < daysInBetween + 1; ++i) {
       List taskList =
-          _myBox.get(convertDateTimeToString(startDate.add(Duration(days: i))));
+          _myBox.get(convertDateTimeToString(startDate.add(Duration(days: i))))??[];
       int done = 0;
       for (int j = 0; j < taskList.length; ++j) {
         if (taskList[j]['taskCompleted'] == true) {
