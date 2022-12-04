@@ -121,7 +121,7 @@ class _NewHomePageState extends State<NewHomePage> {
   }
 
   void saveNewHabitToPool() async {
-
+    db.loadPoolData();
     // add new habit to todays habit list
       db.pool.add({
         'taskName': _newHabitNameController.text,
