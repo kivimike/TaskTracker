@@ -133,7 +133,7 @@ class HabitTile extends StatelessWidget {
                       height: 6,
                     ),
                     Text(
-                      'Date: ${dateTime.day}.'
+                      'Date: ${dateTime.day.toString().padLeft(2,'0')}.'
                       '${dateTime.month.toString().padLeft(2, '0')}'
                       ' ${dateTime.hour.toString().padLeft(2, '0')}:'
                       '${dateTime.minute.toString().padLeft(2, '0')}',
