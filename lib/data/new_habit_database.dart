@@ -38,6 +38,10 @@ class NewHabitDatabase {
 
   void sortList() {
     todaysHabitList.sort((a, b) {
+      var comparisonResult = a['taskCompleted'].toString().compareTo(b['taskCompleted'].toString());
+      if (comparisonResult != 0){
+        return comparisonResult;
+      }
       return a['taskDateTime'].compareTo(b['taskDateTime']);
     });
   }
